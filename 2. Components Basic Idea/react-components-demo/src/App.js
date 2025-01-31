@@ -17,6 +17,8 @@ function App() {
     <div className="App">
       <h1>Hello React</h1>
       <Timer start={50}/>
+      <Timer start={10}/>
+      <Timer start={100}/>
       <MovieList movies={movies}/>
     </div>
   );
