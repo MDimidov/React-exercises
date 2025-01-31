@@ -1,4 +1,5 @@
 import "./App.css";
+import Counter from "./components/Counter";
 import MovieList from "./components/MovieList";
 import Timer from "./components/Timer";
 
@@ -16,6 +17,10 @@ function App() {
   return (
     <div className="App">
       <h1>Hello React</h1>
+      <Counter 
+      countStart={0}
+      canReset
+      />
       <Timer start={50}/>
       <Timer start={10}/>
       <Timer start={100}/>
