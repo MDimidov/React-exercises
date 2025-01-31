@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import MovieList from "./components/MovieList";
 
 function App() {
+  const movies = [
+    { title: "Man of Steel", year: 2008, cast: ["Henry Civil", "Russel Crow"] },
+    { title: "Harry Potter", year: 2008, cast: ["Daniel", "Ema Watson"] },
+    {
+      title: "Word of the rings",
+      year: 2008,
+      cast: ["Orlando Bloom", "Pesho ot detskata"],
+    },
+  ];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello React</h1>
+      <MovieList movies={movies}/>
     </div>
   );
 }
