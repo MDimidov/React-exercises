@@ -6,6 +6,15 @@ var root = ReactDOM.createRoot(rootElement);
 // const headerElement = React.createElement('header', {}, headingElement, secondHeadingElement);
 // Use JSX Syntax 
 
+function HeaderElement(params) {
+    return React.createElement(
+        "h1",
+        { className: "heading" },
+        "Hello from ",
+        params.title,
+        "!"
+    );
+}
 
 var headerElement = React.createElement(
     "div",
@@ -13,11 +22,8 @@ var headerElement = React.createElement(
     React.createElement(
         "header",
         { className: "header-container" },
-        React.createElement(
-            "h1",
-            { className: "heading" },
-            "Hello from React!"
-        ),
+        React.createElement(HeaderElement, { title: "React" }),
+        React.createElement(HeaderElement, { title: "Second" }),
         React.createElement(
             "h2",
             null,
