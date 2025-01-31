@@ -1,5 +1,4 @@
 function Movie(props) {
-  console.log(props.isNew);
   return (
     <article>
       <h3>{props.title}</h3>
