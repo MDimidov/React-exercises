@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <h1>Movie list</h1>
 
-      <MovieList movies={movies.slice(0, 10)} />
+      <MovieList movies={movies.slice(0, 20)} />
     </div>
   );
 }

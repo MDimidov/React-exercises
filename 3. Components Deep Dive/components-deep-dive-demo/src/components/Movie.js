@@ -2,14 +2,14 @@ function Movie({
     title,
     year,
     plot,
-    posterURL,
+    posterUrl,
     director
 }) {
     return (
 <article>
     <h3>{title}, {year}</h3>
     <main>
-        <img src={posterURL} alt={title} />
+        <img src={posterUrl} alt={title} />
         <p>{plot}</p>
     </main>
     <footer>
