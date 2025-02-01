@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import styles from './Movie.module.css';
 
 function Movie({
   id,
@@ -24,7 +25,7 @@ function Movie({
   }, [selected]);
 
   return (
-    <article>
+    <article className={styles['movie-article']}>
       <h3>
         {title}, {year}
       </h3>
@@ -32,8 +33,8 @@ function Movie({
       <main>
         <img src={posterUrl} alt={title} />
         <p>{plot}</p>
-        <button onClick={() => deleteMovieHandler(id)}>Delete {title}</button>
-        <button onClick={() => selectMovieHandler(id)}>Select {title}</button>
+        <button className={`${styles['btn-movie']} ${styles['btn-delete']}`} onClick={() => deleteMovieHandler(id)}>Delete {title}</button>
+        <button className={styles['btn-movie']} onClick={() => selectMovieHandler(id)}>Select {title}</button>
       </main>
       <footer>
         <p>director: {director}</p>

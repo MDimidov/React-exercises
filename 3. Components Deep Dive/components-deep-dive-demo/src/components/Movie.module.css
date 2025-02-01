@@ -1,0 +1,15 @@
+.movie-article {
+    background-color: rebeccapurple;
+    border-bottom: 5px solid green;
+    border-radius: 0.5rem;
+    padding-bottom: 5px;
+}
+
+.btn-movie {
+    border-radius: 2px;
+    background-color: aqua;
+}
+
+.btn-delete {
+    background-color: red;
+}
