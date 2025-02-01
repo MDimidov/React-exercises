@@ -18,11 +18,11 @@ function Movie({
     return () => {
         console.log(`Movie ${title} - unmounted`);
       };
-  }, []);
+  }, [title]);
 
   useEffect(() => {
     console.log(`Movie ${title} - updated`);
-  }, [selected]);
+  }, [selected, title]);
 
   return (
     <article className={styles['movie-article']}>
