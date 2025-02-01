@@ -1,9 +1,11 @@
 function Movie({
+    id,
     title,
     year,
     plot,
     posterUrl,
-    director
+    director,
+    deleteMovieHandler,
 }) {
     return (
 <article>
@@ -11,6 +13,7 @@ function Movie({
     <main>
         <img src={posterUrl} alt={title} />
         <p>{plot}</p>
+        <button onClick={() => deleteMovieHandler(id)}>Delete {title}</button>
     </main>
     <footer>
         <p>director: {director}</p>
