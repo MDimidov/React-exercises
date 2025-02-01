@@ -10,6 +10,10 @@ function App() {
     setMovies(state => state.filter(m => m.id !== id))
   }
 
+  function selectMovieHandler(id) {
+    setMovies(state => state.map(m => ({...m, selected: m.id === id})));
+  }
+
   return (
     <div className="App">
       <h1>Movie list</h1>
@@ -17,6 +21,7 @@ function App() {
       <MovieList 
       movies={movies.slice(0, 20)} 
       deleteMovieHandler={deleteMovieHandler}
+      selectMovieHandler={selectMovieHandler}
       />
     </div>
   );

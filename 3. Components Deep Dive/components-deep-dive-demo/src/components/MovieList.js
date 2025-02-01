@@ -1,7 +1,7 @@
 import Movie from "./Movie";
 import React from "react";
 
-function MovieList({ movies, deleteMovieHandler }) {
+function MovieList({ movies, deleteMovieHandler, selectMovieHandler }) {
   // let movieList = [];
   // for (const movie of movies) {
   //   // movieList.push(React.createElement(Movie, movie));
@@ -24,7 +24,8 @@ function MovieList({ movies, deleteMovieHandler }) {
         <li key={movie.title}>
           <Movie 
           {...movie} 
-          deleteMovieHandler={deleteMovieHandler} 
+          deleteMovieHandler={deleteMovieHandler}
+          selectMovieHandler={selectMovieHandler} 
           />
         </li>
       ))}
