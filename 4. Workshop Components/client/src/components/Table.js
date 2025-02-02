@@ -1,6 +1,10 @@
 import TableRow from "./TableRow";
 
-export default function Table({users}) {
+
+
+export default function Table({ users, showInfoHandler }) {
+
+
   return (
     <div className="table-wrapper">
       {/* Overlap components  */}
@@ -172,7 +176,11 @@ export default function Table({users}) {
         </thead>
         <tbody>
           {users?.map((user) => (
-            <TableRow key={user._id} {...user} />
+            <TableRow
+              key={user._id}
+              {...user}
+              showInfoHandler={showInfoHandler}
+            />
           ))}
         </tbody>
       </table>

@@ -7,6 +7,7 @@ export default function TableRow({
   phoneNumber,
   createdAt,
   updatedAt,
+  showInfoHandler,
 }) {
   return (
     <tr>
@@ -58,7 +59,7 @@ export default function TableRow({
             ></path>
           </svg>
         </button>
-        <button className="btn info-btn" title="Info">
+        <button onClick={() => showInfoHandler(_id)} className="btn info-btn" title="Info">
           <svg
             aria-hidden="true"
             focusable="false"
