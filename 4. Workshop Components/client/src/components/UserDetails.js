@@ -1,5 +1,4 @@
 export default function UserDetails({
-  selectedUser,
   _id,
   address,
   firstName,
@@ -8,7 +7,8 @@ export default function UserDetails({
   imageUrl,
   phoneNumber,
   createdAt,
-  updatedAt
+  updatedAt,
+  onCloseHandler
 }) {
   return (
     <div className="overlay">
@@ -17,7 +17,7 @@ export default function UserDetails({
         <div className="detail-container">
           <header className="headers">
             <h2>User Detail</h2>
-            <button className="btn close">
+            <button onClick={() => onCloseHandler()} className="btn close">
               <svg
                 aria-hidden="true"
                 focusable="false"

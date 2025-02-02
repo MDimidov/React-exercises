@@ -25,6 +25,10 @@ function App() {
     return setSelectedUser(user);
   }
 
+  function onCloseHandler() {
+    return setSelectedUser(null);
+  }
+
   return (
     <>
       <Header />
@@ -35,7 +39,7 @@ function App() {
         <SectionTable users={users} showInfoHandler={showInfoHandler} />
 
         {/* <!-- User details component  --> */}
-        {selectedUser && <UserDetails {...selectedUser} />}
+        {selectedUser && <UserDetails {...selectedUser} onCloseHandler={onCloseHandler}/>}
     {/* Тук неще не се спредва като хората, защото получавам undefined */}
 
         {/* <!-- Create/Edit Form component  --> */}
