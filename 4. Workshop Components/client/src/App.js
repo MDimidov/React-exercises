@@ -1,22 +1,43 @@
-import './App.css';
+import * as userService from "./services/userService";
+import { useState, useEffect } from "react";
+import "./App.css";
+// import CreateEdit from './components/CreateEdit';
+// import DeleteUser from './components/DeleteUser';
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import SectionTable from "./components/SectionTable";
+// import UserDetails from "./components/UserDetails";
 
 function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    userService
+      .getUsers()
+      .then(setUsers)
+      .catch((err) => console.error("err:" + err));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+
+      {/* <!-- Main component  --> */}
+      <main className="main">
+        {/* <!-- Section component  --> */}
+        <SectionTable users={users}/>
+
+        {/* <!-- User details component  --> */}
+        {/* <UserDetails /> */}
+
+        {/* <!-- Create/Edit Form component  --> */}
+        {/* <CreateEdit /> */}
+
+        {/* <!-- Delete user component  --> */}
+        {/* <DeleteUser /> */}
+      </main>
+      <Footer />
+    </>
   );
 }
 
