@@ -1,3 +1,5 @@
+import formatDate from '../utils/dateFormat';
+
 export default function UserDetails({
   _id,
   address,
@@ -63,10 +65,10 @@ export default function UserDetails({
               </p>
 
               <p>
-                Created on: <strong>{createdAt}</strong>
+                Created on: <strong>{formatDate(createdAt)}</strong>
               </p>
               <p>
-                Modified on: <strong>{updatedAt}</strong>
+                Modified on: <strong>{formatDate(updatedAt)}</strong>
               </p>
             </div>
           </div>
