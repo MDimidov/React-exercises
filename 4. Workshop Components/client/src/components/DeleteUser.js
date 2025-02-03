@@ -1,7 +1,7 @@
 export default function DeleteUser({
   onCloseHandler,
   userId,
-  deleteUserHandler
+  deleteUserHandler,
 }) {
   return (
     <div className="overlay">
@@ -30,10 +30,20 @@ export default function DeleteUser({
           </header>
           <div className="actions">
             <div id="form-actions">
-              <button id="action-save" className="btn" type="submit" onClick={() => deleteUserHandler(userId)}>
+              <button
+                id="action-save"
+                className="btn"
+                type="submit"
+                onClick={() => deleteUserHandler(userId)}
+              >
                 Delete
               </button>
-              <button id="action-cancel" className="btn" type="button" onClick={onCloseHandler}>
+              <button
+                id="action-cancel"
+                className="btn"
+                type="button"
+                onClick={onCloseHandler}
+              >
                 Cancel
               </button>
             </div>

@@ -1,4 +1,4 @@
-import formatDate from '../utils/dateFormat';
+import formatDate from "../utils/dateFormat";
 
 export default function TableRow({
   _id,
@@ -11,6 +11,7 @@ export default function TableRow({
   updatedAt,
   showInfoHandler,
   showDeleteHandler,
+  showEditUserForm,
 }) {
   return (
     <tr>
@@ -28,7 +29,11 @@ export default function TableRow({
       <td>{formatDate(createdAt)}</td>
 
       <td className="actions">
-        <button className="btn edit-btn" title="Edit">
+        <button
+          className="btn edit-btn"
+          title="Edit"
+          onClick={() => showEditUserForm(_id)}
+        >
           <svg
             aria-hidden="true"
             focusable="false"
@@ -45,7 +50,11 @@ export default function TableRow({
             ></path>
           </svg>
         </button>
-        <button className="btn delete-btn" title="Delete" onClick={() => showDeleteHandler(_id)}>
+        <button
+          className="btn delete-btn"
+          title="Delete"
+          onClick={() => showDeleteHandler(_id)}
+        >
           <svg
             aria-hidden="true"
             focusable="false"
@@ -62,7 +71,11 @@ export default function TableRow({
             ></path>
           </svg>
         </button>
-        <button onClick={() => showInfoHandler(_id)} className="btn info-btn" title="Info">
+        <button
+          onClick={() => showInfoHandler(_id)}
+          className="btn info-btn"
+          title="Info"
+        >
           <svg
             aria-hidden="true"
             focusable="false"

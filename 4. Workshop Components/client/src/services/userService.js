@@ -40,5 +40,26 @@ export async function deleteUser(userId) {
     method: "DELETE",
   })
     .then((res) => res.json())
-    .catch(err => console.error('err:' + err));
+    .catch((err) => console.error("err:" + err));
+}
+
+export async function updateUser(userId, userData) {
+  const { country, city, street, streetNumber, ...user } = userData;
+  user.address = {
+    country,
+    city,
+    street,
+    streetNumber,
+  };
+
+  return await fetch(baseURL + userId, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  })
+    .then((res) => res.json())
+    .then((result) => result.user)
+    .catch((err) => console.error("err:" + err));
 }

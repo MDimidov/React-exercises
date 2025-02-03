@@ -1,4 +1,4 @@
-import formatDate from '../utils/dateFormat';
+import formatDate from "../utils/dateFormat";
 
 export default function UserDetails({
   _id,
@@ -10,7 +10,7 @@ export default function UserDetails({
   phoneNumber,
   createdAt,
   updatedAt,
-  onCloseHandler
+  onCloseHandler,
 }) {
   return (
     <div className="overlay">
@@ -50,8 +50,8 @@ export default function UserDetails({
                 User Id: <strong>{_id}</strong>
               </p>
               <p>
-                Full Name:
-                <strong>{`${firstName} ${lastName}`}</strong>
+                Full Name: 
+                <strong>{` ${firstName} ${lastName}`}</strong>
               </p>
               <p>
                 Email: <strong>{email}</strong>
@@ -61,7 +61,10 @@ export default function UserDetails({
               </p>
               <p>
                 Address:
-                <strong> {`${address.country}, ${address.city}, ${address.street} ${address.streetNumber}`}</strong>
+                <strong>
+                  {" "}
+                  {`${address.country}, ${address.city}, ${address.street} ${address.streetNumber}`}
+                </strong>
               </p>
 
               <p>

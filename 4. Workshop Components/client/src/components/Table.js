@@ -1,14 +1,11 @@
 import TableRow from "./TableRow";
 
-
-
-export default function Table({ 
-  users, 
-  showInfoHandler, 
-  showDeleteHandler
+export default function Table({
+  users,
+  showInfoHandler,
+  showDeleteHandler,
+  showEditUserForm,
 }) {
-
-
   return (
     <div className="table-wrapper">
       {/* Overlap components  */}
@@ -185,6 +182,7 @@ export default function Table({
               {...user}
               showInfoHandler={showInfoHandler}
               showDeleteHandler={showDeleteHandler}
+              showEditUserForm={showEditUserForm}
             />
           ))}
         </tbody>

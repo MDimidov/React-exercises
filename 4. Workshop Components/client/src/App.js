@@ -15,6 +15,7 @@ function App() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showCreateUser, setShowCreteUser] = useState(false);
   const [showDeleteUserId, setShowDeleteUserId] = useState(null);
+  const [showEditUser, setShowEditUser] = useState(null);
 
   useEffect(() => {
     userService
@@ -33,6 +34,7 @@ function App() {
     setSelectedUser(null);
     setShowCreteUser(false);
     setShowDeleteUserId(null);
+    setShowEditUser(null);
   }
 
   function showCreateUserForm() {
@@ -61,16 +63,37 @@ function App() {
     }
   }
 
+  async function editUserHandler(e, userId) {
+    e.preventDefault();
+
+    const formEl = e.target.closest("form");
+    const form = new FormData(formEl);
+    const user = Object.fromEntries(form);
+
+    const result = await userService.updateUser(userId, user);
+
+    if (result) {
+      setUsers((state) => state.map((u) => (u._id === userId ? result : u)));
+
+      onCloseHandler();
+    }
+  }
   function showDeleteHandler(userId) {
     return setShowDeleteUserId(userId);
   }
 
+  async function showEditUserForm(userId) {
+    const user = await userService.getUserById(userId);
+
+    setShowEditUser(user);
+  }
+
   async function deleteUserHandler(userId) {
     const result = await userService.deleteUser(userId);
-    
-    if(result) {
+
+    if (result) {
       onCloseHandler();
-      setUsers(state => state.filter(u => u._id !== result.userId));
+      setUsers((state) => state.filter((u) => u._id !== result.userId));
     }
   }
 
@@ -80,12 +103,12 @@ function App() {
 
       {/* <!-- Main component  --> */}
       <main className="main">
-        {/* <!-- Section component  --> */}
         <SectionTable
           users={users}
           showInfoHandler={showInfoHandler}
           showCreateUserForm={showCreateUserForm}
           showDeleteHandler={showDeleteHandler}
+          showEditUserForm={showEditUserForm}
         />
 
         {selectedUser && (
@@ -96,7 +119,15 @@ function App() {
         {showCreateUser && (
           <CreateEdit
             onCloseHandler={onCloseHandler}
-            createUserHandler={createUserHandler}
+            createOrEditUserHandler={createUserHandler}
+          />
+        )}
+
+        {showEditUser && (
+          <CreateEdit
+            user={showEditUser}
+            onCloseHandler={onCloseHandler}
+            createOrEditUserHandler={editUserHandler}
           />
         )}
 
