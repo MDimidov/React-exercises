@@ -1,7 +1,7 @@
 import * as userService from "./services/userService";
 import { useState, useEffect } from "react";
 import "./App.css";
-// import CreateEdit from './components/CreateEdit';
+import CreateEdit from './components/CreateEdit';
 // import DeleteUser from './components/DeleteUser';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -11,6 +11,7 @@ import UserDetails from "./components/UserDetails";
 function App() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showCreateUser, setShowCreteUser] = useState(false);
 
   useEffect(() => {
     userService
@@ -26,7 +27,36 @@ function App() {
   }
 
   function onCloseHandler() {
-    return setSelectedUser(null);
+    setSelectedUser(null);
+    setShowCreteUser(false);
+
+  }
+
+  function showCreateUserForm() {
+    setShowCreteUser(true);
+  }
+
+  async function createUserHandler(e) {
+    // Prevent page from refresh
+    e.preventDefault();
+
+    // Get form elements
+    const form = e.target.closest('form');
+    const formData = new FormData(form)
+    const data = Object.fromEntries(formData);
+
+    // Create user and get the result object
+    const result = await userService.createUser(data);
+
+    // after successful creation
+    if (result) {
+
+      // Update users table without refreshing page
+      setUsers(state => [...state, result]);
+      
+      // Close modal 
+      onCloseHandler();
+    }
   }
 
   return (
@@ -36,14 +66,16 @@ function App() {
       {/* <!-- Main component  --> */}
       <main className="main">
         {/* <!-- Section component  --> */}
-        <SectionTable users={users} showInfoHandler={showInfoHandler} />
+        <SectionTable
+          users={users}
+          showInfoHandler={showInfoHandler} 
+          showCreateUserForm={showCreateUserForm}
+         />
 
-        {/* <!-- User details component  --> */}
         {selectedUser && <UserDetails {...selectedUser} onCloseHandler={onCloseHandler}/>}
-    {/* Тук неще не се спредва като хората, защото получавам undefined */}
 
         {/* <!-- Create/Edit Form component  --> */}
-        {/* <CreateEdit /> */}
+        {showCreateUser && <CreateEdit onCloseHandler={onCloseHandler} createUserHandler={createUserHandler}/>}
 
         {/* <!-- Delete user component  --> */}
         {/* <DeleteUser /> */}

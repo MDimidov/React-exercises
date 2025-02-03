@@ -2,7 +2,10 @@ import TableRow from "./TableRow";
 
 
 
-export default function Table({ users, showInfoHandler }) {
+export default function Table({ 
+  users, 
+  showInfoHandler, 
+}) {
 
 
   return (

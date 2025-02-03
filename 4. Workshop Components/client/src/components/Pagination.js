@@ -3,7 +3,7 @@ export default function Pagination() {
     <div className="pagination position">
       <div className="limits">
         <span>Items per page:</span>
-        <select name="limit" className="limit" defaultValue={5}>
+        <select name="limit" className="limit" defaultValue={20}>
           <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={15}>15</option>
