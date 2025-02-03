@@ -16,13 +16,19 @@ function App() {
   const [showCreateUser, setShowCreteUser] = useState(false);
   const [showDeleteUserId, setShowDeleteUserId] = useState(null);
   const [showEditUser, setShowEditUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState(5);
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     userService
-      .getUsers()
-      .then(setUsers)
+      .getUsers(currentPage, pageLimit)
+      .then((data) => {
+        setUsers(data.users);
+        setTotalCount(data.count);
+      })
       .catch((err) => console.error("err:" + err));
-  }, []);
+  }, [currentPage, pageLimit]);
 
   async function showInfoHandler(id) {
     const user = await userService.getUserById(id);
@@ -42,7 +48,7 @@ function App() {
   }
 
   async function createUserHandler(e) {
-    // Prevent page from refresh
+    // Prevent currentPage from refresh
     e.preventDefault();
 
     // Get form elements
@@ -55,7 +61,7 @@ function App() {
 
     // after successful creation
     if (result) {
-      // Update users table without refreshing page
+      // Update users table without refreshing currentPage
       setUsers((state) => [...state, result]);
 
       // Close modal
@@ -97,6 +103,14 @@ function App() {
     }
   }
 
+  function currentPageHandler(currentPage) {
+    setCurrentPage(currentPage);
+  }
+
+  function pageLimitHandler(pageLimit) {
+    setPageLimit(pageLimit);
+  }
+
   return (
     <>
       <Header />
@@ -109,6 +123,11 @@ function App() {
           showCreateUserForm={showCreateUserForm}
           showDeleteHandler={showDeleteHandler}
           showEditUserForm={showEditUserForm}
+          currentPageHandler={currentPageHandler}
+          currentPage={currentPage}
+          totalCount={totalCount}
+          pageLimit={pageLimit}
+          pageLimitHandler={pageLimitHandler}
         />
 
         {selectedUser && (

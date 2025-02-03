@@ -1,9 +1,9 @@
 const baseURL = `http://localhost:3005/api/users/`;
 
-export async function getUsers() {
-  return await fetch(baseURL)
+export async function getUsers(page, limit) {
+  return await fetch(baseURL + `?page=${page}&limit=${limit}`)
     .then((res) => res.json())
-    .then((data) => data.users)
+    // .then((data) => data.users)
     .catch((err) => console.error("err:" + err));
 }
 
