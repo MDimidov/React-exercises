@@ -5,7 +5,8 @@ import Table from "./Table";
 export default function SectionTable({ 
   users, 
   showInfoHandler,
-  showCreateUserForm
+  showCreateUserForm,
+  showDeleteHandler,
  }) {
   return (
     <section className="card users-container">
@@ -14,6 +15,7 @@ export default function SectionTable({
       <Table 
       users={users} 
       showInfoHandler={showInfoHandler}
+      showDeleteHandler={showDeleteHandler}
       />
 
       {/* New user button  */}

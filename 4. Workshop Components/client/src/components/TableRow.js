@@ -10,6 +10,7 @@ export default function TableRow({
   createdAt,
   updatedAt,
   showInfoHandler,
+  showDeleteHandler,
 }) {
   return (
     <tr>
@@ -44,7 +45,7 @@ export default function TableRow({
             ></path>
           </svg>
         </button>
-        <button className="btn delete-btn" title="Delete">
+        <button className="btn delete-btn" title="Delete" onClick={() => showDeleteHandler(_id)}>
           <svg
             aria-hidden="true"
             focusable="false"

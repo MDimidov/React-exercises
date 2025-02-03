@@ -5,6 +5,7 @@ import TableRow from "./TableRow";
 export default function Table({ 
   users, 
   showInfoHandler, 
+  showDeleteHandler
 }) {
 
 
@@ -183,6 +184,7 @@ export default function Table({
               key={user._id}
               {...user}
               showInfoHandler={showInfoHandler}
+              showDeleteHandler={showDeleteHandler}
             />
           ))}
         </tbody>
