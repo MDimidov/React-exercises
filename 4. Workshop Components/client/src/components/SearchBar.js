@@ -1,4 +1,27 @@
+function showClearBtnHandler(e) {
+  const btn = document.querySelector('div.search-input-container>button.btn.close-btn');
+  const input = document.querySelector('div.search-input-container>input[name="search"]');
+
+  
+  if (input && input.value.length > 0) {
+    btn.style.display = 'flex';
+  } else if (btn) {
+    btn.style.display = 'none';
+  }
+}
+
+
 export default function SearchBar() {
+  
+  showClearBtnHandler();
+  
+  function clearSearFieldHandler(e) {
+    e.preventDefault();
+    const input = e.target.closest('div').querySelector('input[name="search"]');
+    input.value  = '';
+    const btn = e.target.closest('button');
+    btn.style.display = 'none';
+  }
   return (
     <form className="search-form">
       <h2>
@@ -24,9 +47,10 @@ export default function SearchBar() {
           type="text"
           placeholder="Please, select the search criteria"
           name="search"
+          onInput={showClearBtnHandler}
         />
         {/* <!-- Show the clear button only if input field length !== 0 --> */}
-        <button className="btn close-btn">
+        <button className="btn close-btn" onClick={clearSearFieldHandler}>
           <i className="fa-solid fa-xmark"></i>
         </button>
 
@@ -39,10 +63,10 @@ export default function SearchBar() {
         <span>Search Criteria:</span>
         <select name="criteria" className="criteria" defaultValue="">
           <option value="">Not selected</option>
-          <option value="">First Name</option>
-          <option value="">Last Name</option>
-          <option value="">Email</option>
-          <option value="">Phone</option>
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
+          <option value="email">Email</option>
+          <option value="phoneNumber">Phone</option>
         </select>
       </div>
     </form>
