@@ -845,6 +845,8 @@ ul {
   border-bottom-right-radius: 1.25rem;
 }
 
+
+
 .form-row {
   width: 100%;
   display: flex;
@@ -858,9 +860,14 @@ ul {
   width: 47%;
 }
 
-.form-group .form-error {
+.form-group p.form-error,
+.form-group span .form-error {
   color: #d9534f;
   min-height: 20px;
+}
+
+.form-group .form-error {
+  border-color: #d9534f;
 }
 
 .long-line {

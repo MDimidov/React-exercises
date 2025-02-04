@@ -1,3 +1,47 @@
+import * as errors from '../utils/errors';
+
+function chooseError(label, value, n) {
+  const charLongsArr = ['First name', 'Last name', 'Country', 'City', 'Street'];
+  const patternIsNotValid = ['Email', 'Phone number', 'Image Url'];
+  const positiveNumbers = ['Street number'];
+
+  if (charLongsArr.includes(label)) {
+    return errors.nCharactersLong(label, value, n);
+  } else if (patternIsNotValid.includes(label)) {
+    return errors.fieldIsNotValid(label, value);
+  } else if (positiveNumbers.includes(label)) {
+    return errors.numberWrong(label, value);
+  }
+}
+
+function validateFieldsHandler(e) {
+  const formEl = e.target.closest('form');
+  const form = new FormData(formEl);
+  const data = Object.fromEntries(form);
+  Object.entries(data).forEach(([key, value]) => {
+    const field = formEl.querySelector(`#${key}`);
+    const label = formEl.querySelector(`label[for="${key}"]`).textContent;
+    const formGroup = field.closest('div.form-group');
+    const pEl = formGroup.querySelector('p.form-error');
+    const n = field.minLength;
+
+    pEl.textContent = chooseError(label, value, n);
+    
+    const span = formGroup.querySelector('span');
+    const ico = span.querySelector('i');
+    if (pEl.textContent.length > 3) {
+      if (![...field.classList].includes('form-error')) {
+        field.classList.add('form-error');
+        span.classList.add('form-error');
+        ico.classList.add('form-error');
+      }
+    } else if ([...field.classList].includes('form-error')) {
+      field.classList.remove('form-error');
+      span.classList.remove('form-error');
+      ico.classList.remove('form-error');
+    }
+  });
+}
 export default function CreateEdit({
   onCloseHandler,
   createOrEditUserHandler,
@@ -33,18 +77,20 @@ export default function CreateEdit({
               <div className="form-group">
                 <label htmlFor="firstName">First name</label>
                 <div className="input-wrapper">
-                  <span>
-                    <i className="fa-solid fa-user"></i>
+                  <span className="form-error">
+                    <i className="fa-solid fa-user form-error"></i>
                   </span>
                   <input
+                    className="form-error"
                     id="firstName"
                     name="firstName"
                     type="text"
+                    minLength={3}
                     defaultValue={user?.firstName}
                   />
                 </div>
                 <p className="form-error">
-                  First name should be at least 3 characters long!
+                  {/* First name should be at least 3 characters long! */}
                 </p>
               </div>
               <div className="form-group">
@@ -57,11 +103,12 @@ export default function CreateEdit({
                     id="lastName"
                     name="lastName"
                     type="text"
+                    minLength={3}
                     defaultValue={user?.lastName}
                   />
                 </div>
                 <p className="form-error">
-                  Last name should be at least 3 characters long!
+                  {/* Last name should be at least 3 characters long! */}
                 </p>
               </div>
             </div>
@@ -80,7 +127,9 @@ export default function CreateEdit({
                     defaultValue={user?.email}
                   />
                 </div>
-                <p className="form-error">Email is not valid!</p>
+                <p className="form-error">
+                  {/* Email is not valid! */}
+                  </p>
               </div>
               <div className="form-group">
                 <label htmlFor="phoneNumber">Phone number</label>
@@ -95,7 +144,9 @@ export default function CreateEdit({
                     defaultValue={user?.phoneNumber}
                   />
                 </div>
-                <p className="form-error">Phone number is not valid!</p>
+                <p className="form-error">
+                  {/* Phone number is not valid! */}
+                  </p>
               </div>
             </div>
 
@@ -112,7 +163,9 @@ export default function CreateEdit({
                   defaultValue={user?.imageUrl}
                 />
               </div>
-              <p className="form-error">ImageUrl is not valid!</p>
+              <p className="form-error">
+                {/* ImageUrl is not valid! */}
+                </p>
             </div>
 
             <div className="form-row">
@@ -126,11 +179,12 @@ export default function CreateEdit({
                     id="country"
                     name="country"
                     type="text"
+                    minLength={2}
                     defaultValue={user?.address.country}
                   />
                 </div>
                 <p className="form-error">
-                  Country should be at least 2 characters long!
+                  {/* Country should be at least 2 characters long! */}
                 </p>
               </div>
               <div className="form-group">
@@ -143,11 +197,12 @@ export default function CreateEdit({
                     id="city"
                     name="city"
                     type="text"
+                    minLength={3}
                     defaultValue={user?.address.city}
                   />
                 </div>
                 <p className="form-error">
-                  City should be at least 3 characters long!
+                  {/* City should be at least 3 characters long! */}
                 </p>
               </div>
             </div>
@@ -163,11 +218,12 @@ export default function CreateEdit({
                     id="street"
                     name="street"
                     type="text"
+                    minLength={3}
                     defaultValue={user?.address.street}
                   />
                 </div>
                 <p className="form-error">
-                  Street should be at least 3 characters long!
+                  {/* Street should be at least 3 characters long! */}
                 </p>
               </div>
               <div className="form-group">
@@ -184,7 +240,7 @@ export default function CreateEdit({
                   />
                 </div>
                 <p className="form-error">
-                  Street number should be a positive number!
+                  {/* Street number should be a positive number! */}
                 </p>
               </div>
             </div>
@@ -193,7 +249,10 @@ export default function CreateEdit({
                 id="action-save"
                 className="btn"
                 type="submit"
-                onClick={(e) => createOrEditUserHandler(e, user?._id)}
+                onClick={(e) => {
+                  createOrEditUserHandler(e, user?._id);
+                  validateFieldsHandler(e);                  
+                }}
               >
                 Save
               </button>
