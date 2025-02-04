@@ -1,27 +1,41 @@
 function showClearBtnHandler(e) {
-  const btn = document.querySelector('div.search-input-container>button.btn.close-btn');
-  const input = document.querySelector('div.search-input-container>input[name="search"]');
+  const btn = document.querySelector(
+    "div.search-input-container>button.btn.close-btn"
+  );
+  const input = document.querySelector(
+    'div.search-input-container>input[name="search"]'
+  );
 
-  
   if (input && input.value.length > 0) {
-    btn.style.display = 'flex';
+    btn.style.display = "flex";
   } else if (btn) {
-    btn.style.display = 'none';
+    btn.style.display = "none";
   }
 }
 
+function clearSearchFieldHandler(e) {
+  e.preventDefault();
+  const input = e.target.closest("div").querySelector('input[name="search"]');
+  input.value = "";
+  const btn = e.target.closest("button");
+  btn.style.display = "none";
+}
 
-export default function SearchBar() {
-  
+export default function SearchBar({ onSearchQuery, onCriteriaQuery }) {
   showClearBtnHandler();
-  
-  function clearSearFieldHandler(e) {
+
+  function searchByCriteriaHandler(e) {
     e.preventDefault();
-    const input = e.target.closest('div').querySelector('input[name="search"]');
-    input.value  = '';
-    const btn = e.target.closest('button');
-    btn.style.display = 'none';
+
+    const search = e.target
+      .closest("div")
+      .querySelector('input[name="search"]').value;
+    const criteria = document.querySelector("div.filter>select").value;
+
+    onSearchQuery(search);
+    onCriteriaQuery(criteria);
   }
+
   return (
     <form className="search-form">
       <h2>
@@ -50,11 +64,15 @@ export default function SearchBar() {
           onInput={showClearBtnHandler}
         />
         {/* <!-- Show the clear button only if input field length !== 0 --> */}
-        <button className="btn close-btn" onClick={clearSearFieldHandler}>
+        <button className="btn close-btn" onClick={clearSearchFieldHandler}>
           <i className="fa-solid fa-xmark"></i>
         </button>
 
-        <button className="btn" title="Please, select the search criteria">
+        <button
+          className="btn"
+          title="Please, select the search criteria"
+          onClick={searchByCriteriaHandler}
+        >
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>

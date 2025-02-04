@@ -13,10 +13,15 @@ export default function SectionTable({
   currentPage,
   pageLimit,
   pageLimitHandler,
+  onSearchQuery,
+  onCriteriaQuery,
 }) {
   return (
     <section className="card users-container">
-      <SearchBar />
+      <SearchBar
+        onSearchQuery={onSearchQuery}
+        onCriteriaQuery={onCriteriaQuery}
+      />
 
       <div className="table-wrapper">
         {/* Overlap components  */}

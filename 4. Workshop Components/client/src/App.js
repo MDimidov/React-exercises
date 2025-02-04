@@ -19,16 +19,18 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [criteriaQuery, setCriteriaQuery] = useState("");
 
   useEffect(() => {
     userService
-      .getUsers(currentPage, pageLimit)
+      .getUsers(currentPage, pageLimit, searchQuery, criteriaQuery)
       .then((data) => {
         setUsers(data.users);
         setTotalCount(data.count);
       })
       .catch((err) => console.error("err:" + err));
-  }, [currentPage, pageLimit]);
+  }, [currentPage, pageLimit, searchQuery, criteriaQuery]);
 
   async function showInfoHandler(id) {
     const user = await userService.getUserById(id);
@@ -111,6 +113,14 @@ function App() {
     setPageLimit(pageLimit);
   }
 
+  function onSearchQuery(search) {
+    setSearchQuery(search);
+  }
+
+  function onCriteriaQuery(criteria) {
+    setCriteriaQuery(criteria);
+  }
+
   return (
     <>
       <Header />
@@ -128,6 +138,8 @@ function App() {
           totalCount={totalCount}
           pageLimit={pageLimit}
           pageLimitHandler={pageLimitHandler}
+          onSearchQuery={onSearchQuery}
+          onCriteriaQuery={onCriteriaQuery}
         />
 
         {selectedUser && (
