@@ -21,15 +21,21 @@ function App() {
   const [totalCount, setTotalCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [criteriaQuery, setCriteriaQuery] = useState("");
+  const [isWaitingFetch, setIsWaitingFetch] = useState(true);
+  const [isFoundUsers, setIsFoundUsers] = useState(false);
 
   useEffect(() => {
+    setIsWaitingFetch(true);
     userService
       .getUsers(currentPage, pageLimit, searchQuery, criteriaQuery)
       .then((data) => {
         setUsers(data.users);
         setTotalCount(data.count);
+        foundUsersHandler(searchQuery, criteriaQuery, data.count)
       })
       .catch((err) => console.error("err:" + err));
+
+      setIsWaitingFetch(false);
   }, [currentPage, pageLimit, searchQuery, criteriaQuery]);
 
   async function showInfoHandler(id) {
@@ -121,6 +127,15 @@ function App() {
     setCriteriaQuery(criteria);
   }
 
+  function foundUsersHandler(search, criteria, count) {
+    console.log(count);
+    if (search !== '' && criteria!=='' && count === 0) {
+      setIsFoundUsers(false);
+    } else {
+      setIsFoundUsers(true);
+    }
+  }
+
   return (
     <>
       <Header />
@@ -140,6 +155,8 @@ function App() {
           pageLimitHandler={pageLimitHandler}
           onSearchQuery={onSearchQuery}
           onCriteriaQuery={onCriteriaQuery}
+          isWaitingFetch={isWaitingFetch}
+          isFoundUsers={isFoundUsers}
         />
 
         {selectedUser && (
