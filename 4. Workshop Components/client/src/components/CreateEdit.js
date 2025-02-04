@@ -77,11 +77,10 @@ export default function CreateEdit({
               <div className="form-group">
                 <label htmlFor="firstName">First name</label>
                 <div className="input-wrapper">
-                  <span className="form-error">
-                    <i className="fa-solid fa-user form-error"></i>
+                  <span>
+                    <i className="fa-solid fa-user"></i>
                   </span>
                   <input
-                    className="form-error"
                     id="firstName"
                     name="firstName"
                     type="text"

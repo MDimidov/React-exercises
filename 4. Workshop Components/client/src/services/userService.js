@@ -1,10 +1,16 @@
 const baseURL = `http://localhost:3005/api/users/`;
 
-export async function getUsers(page, limit, search, criteria) {
-  return await fetch(baseURL + `?page=${page}&limit=${limit}&search=${search}&criteria=${criteria}`)
+export async function getUsers(page, limit, search, criteria, setIsFailedToFetch) {
+  return await fetch(
+    baseURL +
+      `?page=${page}&limit=${limit}&search=${search}&criteria=${criteria}`
+  )
     .then((res) => res.json())
     // .then((data) => data.users)
-    .catch((err) => console.error("err:" + err));
+    .catch((err) => {
+      console.error("err:" + err);
+      setIsFailedToFetch(true);
+    });
 }
 
 export async function getUserById(id) {

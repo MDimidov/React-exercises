@@ -22,20 +22,25 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [criteriaQuery, setCriteriaQuery] = useState("");
   const [isWaitingFetch, setIsWaitingFetch] = useState(true);
-  const [isFoundUsers, setIsFoundUsers] = useState(false);
+  const [isFoundUsers, setIsFoundUsers] = useState(true);
+  const [isAnyUsers, setIsAnyUsers] = useState(true);
+  const [isFailedToFetch, setIsFailedToFetch] = useState(false);
 
   useEffect(() => {
     setIsWaitingFetch(true);
     userService
-      .getUsers(currentPage, pageLimit, searchQuery, criteriaQuery)
+      .getUsers(currentPage, pageLimit, searchQuery, criteriaQuery, setIsFailedToFetch)
       .then((data) => {
         setUsers(data.users);
         setTotalCount(data.count);
-        foundUsersHandler(searchQuery, criteriaQuery, data.count)
+        foundUsersHandler(searchQuery, criteriaQuery, data.count);
+        setIsWaitingFetch(false);
       })
-      .catch((err) => console.error("err:" + err));
+      .catch((err) => {
+        console.error("err:" + err);
+        setIsWaitingFetch(false);
+      });
 
-      setIsWaitingFetch(false);
   }, [currentPage, pageLimit, searchQuery, criteriaQuery]);
 
   async function showInfoHandler(id) {
@@ -129,10 +134,14 @@ function App() {
 
   function foundUsersHandler(search, criteria, count) {
     console.log(count);
-    if (search !== '' && criteria!=='' && count === 0) {
+    if (search !== "" && criteria !== "" && count === 0) {
       setIsFoundUsers(false);
-    } else {
+      setIsAnyUsers(true);
+    } else if (count === 0) {
       setIsFoundUsers(true);
+      setIsAnyUsers(false);
+    } else {
+      setIsAnyUsers(true);
     }
   }
 
@@ -157,6 +166,8 @@ function App() {
           onCriteriaQuery={onCriteriaQuery}
           isWaitingFetch={isWaitingFetch}
           isFoundUsers={isFoundUsers}
+          isFailedToFetch={isFailedToFetch}
+          isAnyUsers={isAnyUsers}
         />
 
         {selectedUser && (
