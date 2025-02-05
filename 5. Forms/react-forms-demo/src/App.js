@@ -126,7 +126,7 @@ function App() {
                 checked={formValues.gender === "male"}
                 onChange={changeFormValuesHandler}
               />
-              <label htmlFor="male">Female: </label>
+              <label htmlFor="female">Female: </label>
               <input
                 type="radio"
                 name="gender"
