@@ -23,7 +23,10 @@ export function fieldIsNotValid(field, value) {
 }
 
 export function numberWrong(field, value) {
-  if (value <= 0 || typeof value !== 'number') {
+  const digitPattern = /^\d+$/;
+  const isNumber = digitPattern.test(value);
+
+  if (Number(value) <= 0 || !isNumber) {
     return `${field} should be a positive number!`;
   } else {
     return "";

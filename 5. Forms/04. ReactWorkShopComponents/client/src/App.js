@@ -1,4 +1,6 @@
 import * as userService from "./services/userService";
+import * as errors from "./utils/errors";
+
 import { useState, useEffect } from "react";
 
 import "./App.css";
@@ -26,10 +28,86 @@ function App() {
   const [isAnyUsers, setIsAnyUsers] = useState(true);
   const [isFailedToFetch, setIsFailedToFetch] = useState(false);
 
+  // Error handling
+  // --------------------------------------------
+  const [userErrors, setUserErrors] = useState({
+    firstName: {
+      error: "",
+      label: "First name",
+    },
+    lastName: {
+      error: "",
+      label: "Last name",
+    },
+    email: {
+      error: "",
+      label: "Email",
+    },
+    phoneNumber: {
+      error: "",
+      label: "Phone number",
+    },
+    imageUrl: {
+      error: "",
+      label: "Image Url",
+    },
+    country: {
+      error: "",
+      label: "Country",
+    },
+    city: {
+      error: "",
+      label: "City",
+    },
+    street: {
+      error: "",
+      label: "Street",
+    },
+    streetNumber: {
+      error: "",
+      label: "Street number",
+    },
+  });
+
+  const charLongsArr = ["firstName", "lastName", "country", "city", "street"];
+  const patternIsNotValid = ["email", "phoneNumber", "imageUrl"];
+  const positiveNumbers = ["streetNumber"];
+
+  function chooseError(name, value, label, n) {
+    if (charLongsArr.includes(name)) {
+      return errors.nCharactersLong(label, value, n);
+    } else if (patternIsNotValid.includes(name)) {
+      return errors.fieldIsNotValid(label, value);
+    } else if (positiveNumbers.includes(name)) {
+      return errors.numberWrong(label, value);
+    }
+  }
+
+  function validateFieldsHandler(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    const n = e.target.minLength;
+    const label = userErrors[name].label;
+
+    const result = {
+      error: chooseError(name, value, label, n),
+      label: label,
+    };
+    setUserErrors((state) => ({ ...state, [name]: result }));
+  }
+
+  // --------------------------------------------
+
   useEffect(() => {
     setIsWaitingFetch(true);
     userService
-      .getUsers(currentPage, pageLimit, searchQuery, criteriaQuery, setIsFailedToFetch)
+      .getUsers(
+        currentPage,
+        pageLimit,
+        searchQuery,
+        criteriaQuery,
+        setIsFailedToFetch
+      )
       .then((data) => {
         setUsers(data.users);
         setTotalCount(data.count);
@@ -40,7 +118,6 @@ function App() {
         console.error("err:" + err);
         setIsWaitingFetch(false);
       });
-
   }, [currentPage, pageLimit, searchQuery, criteriaQuery]);
 
   async function showInfoHandler(id) {
@@ -133,7 +210,6 @@ function App() {
   }
 
   function foundUsersHandler(search, criteria, count) {
-    console.log(count);
     if (search !== "" && criteria !== "" && count === 0) {
       setIsFoundUsers(false);
       setIsAnyUsers(true);
@@ -179,6 +255,8 @@ function App() {
           <CreateEdit
             onCloseHandler={onCloseHandler}
             createOrEditUserHandler={createUserHandler}
+            validateFieldsHandler={validateFieldsHandler}
+            userErrors={userErrors}
           />
         )}
 
@@ -187,6 +265,8 @@ function App() {
             user={showEditUser}
             onCloseHandler={onCloseHandler}
             createOrEditUserHandler={editUserHandler}
+            validateFieldsHandler={validateFieldsHandler}
+            userErrors={userErrors}
           />
         )}
 
