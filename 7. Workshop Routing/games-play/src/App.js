@@ -8,8 +8,18 @@ import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
 import { GameDetails } from './components/GameDetails/GameDetails';
 import { Error404 } from './components/Errors/Errors';
+import { useEffect, useState } from 'react';
+import * as request from './services/gameServices';
 
 function App() {
+  const [games, setGames] = useState([]);
+  
+useEffect(() => {
+  request.getAllGames()
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
+}, []);
+
   return (
     <div className="App">
       <h1>Games play</h1>

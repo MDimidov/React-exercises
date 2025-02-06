@@ -4,7 +4,7 @@ export function Header() {
     return (
         <header>
             {/* <!-- Navigation --> */}
-            <h1><Link className="home" href="#">GamesPlay</ Link></h1>
+            <h1><Link className="home" to="/">GamesPlay</ Link></h1>
             <nav>
                 <Link to="/catalogue">All games</ Link>
                 {/* <!-- Logged-in users --> */}
