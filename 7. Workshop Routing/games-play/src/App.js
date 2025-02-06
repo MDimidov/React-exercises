@@ -16,8 +16,7 @@ function App() {
   
 useEffect(() => {
   request.getAllGames()
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  .then(setGames);
 }, []);
 
   return (
@@ -44,7 +43,7 @@ useEffect(() => {
             <Route path='/create-game' element={<CreateGame />} />
 
             {/* <!-- Catalogue --> */}
-            <Route path='/catalogue' element={<Catalogue />} />
+            <Route path='/catalogue' element={<Catalogue games={games}/>} />
 
 
             {/* <!-- Errors --> */}
