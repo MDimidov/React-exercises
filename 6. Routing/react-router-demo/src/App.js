@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { About, Error404, Home } from './components/Pages';
 import { Navigation } from './components/Navigation';
 import { CharacterList } from './components/CharacterList';
+import { Character } from './components/Character';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/characters" element={<CharacterList />} />
+          <Route path="/characters/:characterId" element={<Character />} />
           <Route path='/*' element={<Error404 />} />
         </Routes>
       </header>
