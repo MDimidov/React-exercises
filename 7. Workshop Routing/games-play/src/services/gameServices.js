@@ -1,6 +1,6 @@
 import * as request from "./request";
 
-const baseUrl = 'http://localhost:3030/jsonstore/games';
+const baseUrl = 'http://localhost:3030/jsonstore/games/';
 
 export async function getAllGames() {
     const result = await request.get(baseUrl);
@@ -11,5 +11,10 @@ export async function getAllGames() {
 
 export async function createGame(game) {
     const result = await request.post(baseUrl, game);
+    return result;
+}
+
+export async function GetGameById(gameId) {
+    const result = await request.get(baseUrl + gameId);
     return result;
 }
