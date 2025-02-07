@@ -10,16 +10,16 @@ export function CreateGame({
         imageUrl: '',
         summary: '',
     });
-    
-function onChange(e) {
-    setGame(state => ({...state, [e.target.name]: e.target.value}));
-}
 
-function onSubmit(e) {
-    e.preventDefault();
-    onSubmitHandler(game);
-}
-    
+    function onChange(e) {
+        setGame(state => ({ ...state, [e.target.name]: e.target.value }));
+    }
+
+    function onSubmit(e) {
+        e.preventDefault();
+        onSubmitHandler(game);
+    }
+
     return (
         <section id="create-page" className="auth">
             <form id="create" onSubmit={onSubmit}>

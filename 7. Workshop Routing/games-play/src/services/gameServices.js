@@ -8,3 +8,8 @@ export async function getAllGames() {
 
     return games;
 }
+
+export async function createGame(game) {
+    const result = await request.post(baseUrl, game);
+    return result;
+}

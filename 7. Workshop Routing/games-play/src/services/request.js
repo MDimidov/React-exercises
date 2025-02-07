@@ -1,7 +1,14 @@
-async function request(method, url) {
-    const request = await fetch(url, {
-        method,
-    });
+async function request(method, url, data) {
+
+    const obj = {};
+    obj.method = method;
+
+
+    if (data) {
+        obj.headers = { 'Content-Type': 'application/json' };
+        obj.body = JSON.stringify(data);
+    }
+    const request = await fetch(url, obj);
 
     try {
         const result = await request.json();
