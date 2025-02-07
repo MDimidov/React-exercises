@@ -19,6 +19,10 @@ useEffect(() => {
   .then(setGames);
 }, []);
 
+function onSubmitHandler(game) {
+  setGames(state => [...state, game]);
+}
+
   return (
     <div className="App">
       <h1>Games play</h1>
@@ -40,7 +44,7 @@ useEffect(() => {
             <Route path='/register' element={<Register />} />
 
             {/* <!-- Create Page ( Only for logged-in users ) --> */}
-            <Route path='/create-game' element={<CreateGame />} />
+            <Route path='/create-game' element={<CreateGame onSubmitHandler={onSubmitHandler} />} />
 
             {/* <!-- Catalogue --> */}
             <Route path='/catalogue' element={<Catalogue games={games}/>} />

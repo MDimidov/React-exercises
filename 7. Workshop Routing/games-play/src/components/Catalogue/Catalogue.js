@@ -7,9 +7,7 @@ export function Catalogue({
         <section id="catalog-page">
             <h1>All Games</h1>
             {/* <!-- Display div: with information about every game (if any) --> */}
-            < div className="allGames" >
-                {games.map(g => (<Games key={g._id} {...g} />))}
-            </div >
+            {games.map(g => (<Games key={g._id} {...g} />))}
 
             {/* <!-- Display paragraph: If there is no games  --> */}
             {games.length > 0 && (
