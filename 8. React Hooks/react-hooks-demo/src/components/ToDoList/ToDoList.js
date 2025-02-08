@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import TodoItem from './ToDoItem/ToDoItem';
 import Button from 'react-bootstrap/Button';
 
-const baseUrl = 'http://localhost:3030/jsonstore/todo-items/'
+const baseUrl = 'http://localhost:3030/jsonstore/todo-items/';
 
 export function ToDoList({
     handleShowModal,
