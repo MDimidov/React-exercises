@@ -18,6 +18,9 @@ export function ToDoList({
             });
     }, []);
 
+    function setTasksHandler(taskId) {
+        setTasks(state => state.filter(s => s._id !== taskId));
+    }
     return (
         <div style={{
             width: '30%',
@@ -25,7 +28,7 @@ export function ToDoList({
         }}>
             <ListGroup>
                 {tasks.map(t => (
-                    <TodoItem key={t._id} {...t} />
+                    <TodoItem key={t._id} {...t} setTasksHandler={setTasksHandler} />
                 ))}
             </ListGroup>
 

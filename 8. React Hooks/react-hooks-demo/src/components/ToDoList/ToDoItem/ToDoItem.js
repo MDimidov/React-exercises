@@ -3,7 +3,10 @@ import Button from 'react-bootstrap/Button';
 
 const baseUrl = 'http://localhost:3030/jsonstore/todo-items/';
 
-export default function TodoItem({ _id, text }) {
+export default function TodoItem({ _id,
+    text,
+    setTasksHandler
+}) {
 
     async function onDeleteTask(_id) {
         await fetch(baseUrl + _id, {
@@ -12,6 +15,8 @@ export default function TodoItem({ _id, text }) {
                 'Content-Type': 'application/json',
             }
         });
+
+        setTasksHandler(_id);
     }
     return (
         <ListGroup.Item style={{
