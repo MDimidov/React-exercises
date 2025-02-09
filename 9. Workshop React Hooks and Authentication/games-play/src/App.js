@@ -39,8 +39,25 @@ function App() {
     }
   }
 
+  async function onRegisterSubmit(data) {
+    const { confirmPassword, ...regData } = data
+
+    if (confirmPassword !== regData.password) {
+      return;
+    }
+
+    try {
+      const result = await authServices.register(regData);
+      navigate('/catalogue');
+      console.log(result);
+    } catch {
+      console.log('Sth Wrong');
+    }
+  }
+
   const context = {
     onLoginSubmit,
+    onRegisterSubmit,
     userId: auth._id,
     token: auth.accessToken,
     userEmail: auth.email,
@@ -54,7 +71,7 @@ function App() {
       <div id="box">
         <AuthenticationContext.Provider value={context}>
 
-          <Header/>
+          <Header />
 
           {/* <!-- Main Content --> */}
           <main id="main-content">

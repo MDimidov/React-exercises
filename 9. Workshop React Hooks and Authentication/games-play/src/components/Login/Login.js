@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useForms } from "../../hooks/useForms";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { Link } from "react-router-dom";
 
 export function Login() {
 
@@ -27,7 +28,7 @@ export function Login() {
           <input type="password" id="login-password" name={formKeys.Password} value={formValues[formKeys.Password]} onChange={onChangeHandler}/>
           <input type="submit" className="btn submit" value="Login" />
           <p className="field">
-            <span>If you don't have profile click <a href="#">here</a></span>
+            <span>If you don't have profile click <Link to="/register">here</Link></span>
           </p>
         </div>
       </form>
