@@ -10,10 +10,12 @@ import { GameDetails } from './components/GameDetails/GameDetails';
 import { Error404 } from './components/Errors/Errors';
 import { useEffect, useState } from 'react';
 import * as request from './services/gameServices';
+import { AuthenticationContext } from './contexts/AuthenticationContext';
 
 function App() {
   const [games, setGames] = useState([]);
   const navigate = useNavigate();
+  const [auth, setAuth] = useState({});
 
   useEffect(() => {
     request.getAllGames()
@@ -24,50 +26,56 @@ function App() {
     const newGame = await request.createGame(game);
     setGames(state => [...state, newGame]);
     navigate('/catalogue');
+  };
+
+  function onLoginSubmit(data) {
+    console.log(data)
   }
+
 
   return (
     <div className="App">
       <h1>Games play</h1>
 
       <div id="box">
+        <AuthenticationContext.Provider value={{onLoginSubmit}}>
 
-        <Header />
+          <Header />
 
-        {/* <!-- Main Content --> */}
-        <main id="main-content">
-          <Routes>
-            {/* <!--Home Page--> */}
-            <Route path='/' element={<Home />} />
+          {/* <!-- Main Content --> */}
+          <main id="main-content">
+            <Routes>
+              {/* <!--Home Page--> */}
+              <Route path='/' element={<Home />} />
 
-            {/* <!-- Login Page ( Only for Guest users ) --> */}
-            <Route path='/login' element={<Login />} />
+              {/* <!-- Login Page ( Only for Guest users ) --> */}
+              <Route path='/login' element={<Login />} />
 
-            {/* <!-- Register Page ( Only for Guest users ) --> */}
-            <Route path='/register' element={<Register />} />
+              {/* <!-- Register Page ( Only for Guest users ) --> */}
+              <Route path='/register' element={<Register />} />
 
-            {/* <!-- Create Page ( Only for logged-in users ) --> */}
-            <Route path='/create-game' element={<CreateGame onSubmitHandler={onSubmitHandler} />} />
+              {/* <!-- Create Page ( Only for logged-in users ) --> */}
+              <Route path='/create-game' element={<CreateGame onSubmitHandler={onSubmitHandler} />} />
 
-            {/* <!-- Catalogue --> */}
-            <Route path='/catalogue' element={<Catalogue games={games} />} />
+              {/* <!-- Catalogue --> */}
+              <Route path='/catalogue' element={<Catalogue games={games} />} />
 
-            <Route path='/catalogue/:gameId' element={<GameDetails games={games} />} />
-
-
-            {/* <!-- Errors --> */}
-            <Route path='/*' element={<Error404 />} />
-          </Routes>
+              <Route path='/catalogue/:gameId' element={<GameDetails games={games} />} />
 
 
-
+              {/* <!-- Errors --> */}
+              <Route path='/*' element={<Error404 />} />
+            </Routes>
 
 
 
 
 
-          {/* <!-- Edit Page ( Only for the creator )--> */}
-          {/* <section id="edit-page" className="auth">
+
+
+
+            {/* <!-- Edit Page ( Only for the creator )--> */}
+            {/* <section id="edit-page" className="auth">
             <form id="edit">
               <div className="container">
 
@@ -92,10 +100,11 @@ function App() {
             </form>
           </section> */}
 
-          {/* <!--Details Page--> */}
-          {/* <GameDetails /> */}
-        </main>
+            {/* <!--Details Page--> */}
+            {/* <GameDetails /> */}
+          </main>
 
+        </AuthenticationContext.Provider>
 
       </div>
     </div>
