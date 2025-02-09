@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export function Header() {
+
+    const { isAuthenticated, userEmail } = useContext(AuthenticationContext);
     return (
         <header>
             {/* <!-- Navigation --> */}
@@ -8,15 +12,20 @@ export function Header() {
             <nav>
                 <Link to="/catalogue">All games</ Link>
                 {/* <!-- Logged-in users --> */}
-                <div id="user">
-                    <Link to="/create-game">Create Game</ Link>
-                    <Link to="/logout">Logout</ Link>
-                </div>
+                {isAuthenticated && (
+                    <div id="user">
+                        <span>Hello, {userEmail}</span>
+                        <Link to="/create-game">Create Game</ Link>
+                        <Link to="/logout">Logout</ Link>
+                    </div>
+                )}
                 {/* <!-- Guest users --> */}
-                <div id="guest">
-                    <Link to="/login">Login</ Link>
-                    <Link to="/register">Register</ Link>
-                </div>
+                {!isAuthenticated && (
+                    <div id="guest">
+                        <Link to="/login">Login</ Link>
+                        <Link to="/register">Register</ Link>
+                    </div>
+                )}
             </nav>
         </header>
     );

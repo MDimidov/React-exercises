@@ -11,6 +11,7 @@ import { Error404 } from './components/Errors/Errors';
 import { useEffect, useState } from 'react';
 import * as request from './services/gameServices';
 import { AuthenticationContext } from './contexts/AuthenticationContext';
+import * as authServices from './services/authenticationServices';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -28,19 +29,32 @@ function App() {
     navigate('/catalogue');
   };
 
-  function onLoginSubmit(data) {
-    console.log(data)
+  async function onLoginSubmit(data) {
+    try {
+      const result = await authServices.login(data);
+      setAuth(result);
+      navigate('/catalogue')
+    } catch {
+      console.log('Your email or password is wrong!');
+    }
   }
 
+  const context = {
+    onLoginSubmit,
+    userId: auth._id,
+    token: auth.accessToken,
+    userEmail: auth.email,
+    isAuthenticated: !!auth.accessToken
+  }
 
   return (
     <div className="App">
       <h1>Games play</h1>
 
       <div id="box">
-        <AuthenticationContext.Provider value={{onLoginSubmit}}>
+        <AuthenticationContext.Provider value={context}>
 
-          <Header />
+          <Header/>
 
           {/* <!-- Main Content --> */}
           <main id="main-content">

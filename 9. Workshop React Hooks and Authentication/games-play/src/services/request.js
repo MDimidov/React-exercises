@@ -10,12 +10,17 @@ async function request(method, url, data) {
     }
     const request = await fetch(url, obj);
 
-    try {
-        const result = await request.json();
-        return result;
-    } catch {
+    if (request.status === 204) {
         return {};
     }
+
+    const result = await request.json();
+    
+    if(!request.ok) {
+        throw result;
+    }
+
+    return result;
 };
 
 export const get = request.bind(null, 'GET');

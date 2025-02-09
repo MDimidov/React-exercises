@@ -15,7 +15,7 @@ export function Login() {
 
   return (
     <section id="login-page" className="auth">
-      <form id="login" onSubmit={onSubmit}>
+      <form id="login" method='POST' onSubmit={onSubmit}>
 
         <div className="container">
           <div className="brand-logo"></div>
