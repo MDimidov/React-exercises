@@ -10,7 +10,7 @@ export function CreateTaskModal({
     onTaskAdd,
 }) {
 
-    const { formValues, onChange, onSubmit } = useForm({task: '', isDeleted: false}, onTaskAdd);
+    const { formValues, onChange, onSubmit } = useForm({text: '', isDeleted: false}, onTaskAdd);
 
     
     return (

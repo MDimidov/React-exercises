@@ -13,6 +13,7 @@ export default function useForm(initialValues, onSubmitHandler) {
         
         if (onSubmitHandler) {
             onSubmitHandler(formValues);
+            setFormValues({});
         }
     }
 

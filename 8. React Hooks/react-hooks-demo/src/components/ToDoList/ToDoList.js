@@ -1,26 +1,11 @@
-import { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import TodoItem from './ToDoItem/ToDoItem';
 import Button from 'react-bootstrap/Button';
 
-const baseUrl = 'http://localhost:3030/jsonstore/todo-items/';
-
 export function ToDoList({
+    tasks,
     handleShowModal,
 }) {
-    const [tasks, setTasks] = useState([]);
-
-    useEffect(() => {
-        fetch(baseUrl)
-            .then(res => res.json())
-            .then(data => {
-                setTasks(Object.values(data));
-            });
-    }, []);
-
-    function setTasksHandler(taskId) {
-        setTasks(state => state.filter(s => s._id !== taskId));
-    }
     return (
         <div style={{
             width: '30%',
@@ -28,7 +13,7 @@ export function ToDoList({
         }}>
             <ListGroup>
                 {tasks.map(t => (
-                    <TodoItem key={t._id} {...t} setTasksHandler={setTasksHandler} />
+                    <TodoItem key={t._id} {...t}/>
                 ))}
             </ListGroup>
 

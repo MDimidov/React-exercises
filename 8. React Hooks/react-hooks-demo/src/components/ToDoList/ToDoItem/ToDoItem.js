@@ -1,12 +1,15 @@
 import ListGroup from "react-bootstrap/esm/ListGroup";
 import Button from 'react-bootstrap/Button';
+import { useContext } from "react";
+import { TodoContext } from "../../../contexts/TodoContext";
 
 const baseUrl = 'http://localhost:3030/jsonstore/todo-items/';
 
-export default function TodoItem({ _id,
+export default function TodoItem({
+    _id,
     text,
-    setTasksHandler
 }) {
+    const setTasksRemoveHandler = useContext(TodoContext);
 
     async function onDeleteTask(_id) {
         await fetch(baseUrl + _id, {
@@ -16,7 +19,7 @@ export default function TodoItem({ _id,
             }
         });
 
-        setTasksHandler(_id);
+        setTasksRemoveHandler(_id);
     }
     return (
         <ListGroup.Item style={{

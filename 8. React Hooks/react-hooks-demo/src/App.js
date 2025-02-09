@@ -1,45 +1,69 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from './components/Header'
 import { CreateTaskModal } from './components/ToDoList/CreateTaskModal';
 import { ToDoList } from './components/ToDoList/ToDoList';
+import { TodoContext } from './contexts/TodoContext';
 
 const baseUrl = 'http://localhost:3030/jsonstore/todo-items/';
 
 
 function App() {
-  const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [tasks, setTasks] = useState([]);
 
-  function handleCloseModal() {
-    setShowModal(false);
-  }
+    useEffect(() => {
+        fetch(baseUrl)
+            .then(res => res.json())
+            .then(data => {
+                setTasks(Object.values(data));
+            });
+    }, []);
 
-  function handleShowModal() {
-    setShowModal(true);
-  }
+    function setTasksRemoveHandler(taskId) {
+        setTasks(state => state.filter(s => s._id !== taskId));
+    }
 
-  async function onTaskAdd(values) {
-    await fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    })
-      .then(res => res.json());
+    function setTasksCreateHandler(task) {
+        setTasks(state => [...state, task]);
+    }
 
-    handleCloseModal();
-  }
+    function handleCloseModal() {
+        setShowModal(false);
+    }
 
-  return (
-    <div>
-      <Header />
+    function handleShowModal() {
+        setShowModal(true);
+    }
 
-      <ToDoList handleShowModal={handleShowModal} />
+    async function onTaskAdd(values) {
+        await fetch(baseUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        })
+            .then(res => res.json())
+            .then(setTasksCreateHandler);
 
-      <CreateTaskModal showModal={showModal} handleCloseModal={handleCloseModal} onTaskAdd={onTaskAdd} />
-    </div>
-  );
+        handleCloseModal();
+    }
+
+    return (
+        <TodoContext.Provider value={setTasksRemoveHandler}>
+            <Header />
+
+            <ToDoList handleShowModal={handleShowModal} tasks={tasks} />
+
+            <CreateTaskModal
+                showModal={showModal}
+                handleCloseModal={handleCloseModal}
+                onTaskAdd={onTaskAdd}
+                setTasksCreateHandler={setTasksCreateHandler}
+            />
+        </TodoContext.Provider>
+    );
 }
 
 export default App;
