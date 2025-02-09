@@ -1,0 +1,10 @@
+.task-item {
+    display: flex !important;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+
+.task-item:hover {
+    background-color: rgba(95, 84, 84, 0.205);
+    transition: 0.3s;
+}

@@ -2,6 +2,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from 'react-bootstrap/Button';
 import { useContext } from "react";
 import { TodoContext } from "../../../contexts/TodoContext";
+import styles from './ToDoItem.module.css';
 
 const baseUrl = 'http://localhost:3030/jsonstore/todo-items/';
 
@@ -39,15 +40,10 @@ export default function TodoItem({
         setTasksRemoveHandler(_id);
     }
     return (
-        <ListGroup.Item style={{
-            display: 'flex',
-            justifyContent: 'space-between'
-        }}
-            action
-            onClick={() => toggleTaskHandler(_id)}
+        <ListGroup.Item className={styles['task-item']} onClick={() => toggleTaskHandler(_id)}
         >
 
-            <p style={{ textDecoration: isCompleted ? 'line-through' : 'none' }}>{text}</p>
+            <span style={{ textDecoration: isCompleted ? 'line-through' : 'none' }}>{text}</span>
             <Button variant="danger" onClick={() => onDeleteTask(_id)}>x</Button>
         </ListGroup.Item>
     );
