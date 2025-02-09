@@ -10,9 +10,9 @@ export function CreateTaskModal({
     onTaskAdd,
 }) {
 
-    const { formValues, onChange, onSubmit } = useForm({text: '', isDeleted: false}, onTaskAdd);
+    const { formValues, onChange, onSubmit } = useForm({ text: '', isDeleted: false }, onTaskAdd);
 
-    
+
     return (
         <Modal show={showModal} onHide={handleCloseModal} animation={true}>
             <Form onSubmit={onSubmit}>
@@ -22,7 +22,7 @@ export function CreateTaskModal({
                 <Modal.Body>
                     <Form.Group className="mb-3" controlId="text">
                         <Form.Label>Task text:</Form.Label>
-                        <Form.Control onChange={onChange} value={formValues.text} type="text" name="text" placeholder="Do the dishes.." />
+                        <Form.Control onChange={onChange} value={formValues.text || ''} type="text" name="text" placeholder="Do the dishes.." />
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

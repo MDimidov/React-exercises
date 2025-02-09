@@ -24,6 +24,9 @@ function App() {
         setTasks(state => state.filter(s => s._id !== taskId));
     }
 
+    function setTasksToggle(taskId) {
+        setTasks(state => state.map(s => s._id === taskId ? { ...s, isCompleted: !s.isCompleted } : s));
+    }
     function setTasksCreateHandler(task) {
         setTasks(state => [...state, task]);
     }
@@ -51,7 +54,7 @@ function App() {
     }
 
     return (
-        <TodoContext.Provider value={setTasksRemoveHandler}>
+        <TodoContext.Provider value={{ setTasksRemoveHandler, setTasksToggle, tasks }}>
             <Header />
 
             <ToDoList handleShowModal={handleShowModal} tasks={tasks} />

@@ -13,7 +13,7 @@ export function ToDoList({
         }}>
             <ListGroup>
                 {tasks.map(t => (
-                    <TodoItem key={t._id} {...t}/>
+                    <TodoItem key={t._id} {...t} />
                 ))}
             </ListGroup>
 
