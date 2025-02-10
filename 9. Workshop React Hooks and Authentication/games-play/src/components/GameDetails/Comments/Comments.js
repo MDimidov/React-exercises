@@ -17,12 +17,10 @@ export function Comments({
             } catch (error) {
                 console.error("Failed to fetch comments:", error);
             }
-
-            console.log('change id')
         };
 
         fetchComments();
-    }, [gameId]);
+    }, [gameId, setComments]);
 
     return (
         <div className="details-comments">

@@ -9,3 +9,7 @@ export async function login(loginData) {
 export async function register(regData) {
     return await request.post(baseUrl + 'register', regData);
 }
+
+export async function logout(token) {
+    return await request.get(baseUrl + 'logout');
+}

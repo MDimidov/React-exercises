@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import * as request from './services/gameServices';
 import { AuthenticationContext } from './contexts/AuthenticationContext';
 import * as authServices from './services/authenticationServices';
+import { Logout } from './components/Logout/Logout';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -49,14 +50,21 @@ function App() {
     try {
       const result = await authServices.register(regData);
       navigate('/catalogue');
-      console.log(result);
+      console.log(result);  // TODO
     } catch {
       console.log('Sth Wrong');
     }
   }
 
+  async function onLogout() {
+    // TODO: authorize request
+    // const result = await authServices.logout();
+    setAuth({});
+  };
+
   const context = {
     onLoginSubmit,
+    onLogout,
     onRegisterSubmit,
     userId: auth._id,
     token: auth.accessToken,
@@ -81,6 +89,8 @@ function App() {
 
               {/* <!-- Login Page ( Only for Guest users ) --> */}
               <Route path='/login' element={<Login />} />
+
+              <Route path='/logout' element={<Logout />} />
 
               {/* <!-- Register Page ( Only for Guest users ) --> */}
               <Route path='/register' element={<Register />} />
