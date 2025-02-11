@@ -1,30 +1,44 @@
-async function request(method, url, data) {
+async function request(method, token, url, data) {
 
-    const obj = {};
-    obj.method = method;
+    const options = {};
+    options.method = method;
 
 
     if (data) {
-        obj.headers = { 'Content-Type': 'application/json' };
-        obj.body = JSON.stringify(data);
+        options.headers = { 'Content-Type': 'application/json' };
+        options.body = JSON.stringify(data);
     }
-    const request = await fetch(url, obj);
+
+    if (token) {
+        options.headers = {
+            ...options.headers,
+            'X-Authorization': token,
+        };
+    }
+
+    const request = await fetch(url, options);
 
     if (request.status === 204) {
         return {};
     }
 
     const result = await request.json();
-    
-    if(!request.ok) {
+
+    if (!request.ok) {
         throw result;
     }
 
     return result;
 };
 
-export const get = request.bind(null, 'GET');
-export const post = request.bind(null, 'POST');
-export const put = request.bind(null, 'PUT');
-export const patch = request.bind(null, 'Patch');
-export const del = request.bind(null, 'DELETE');
+
+
+export function requestFactory(token) {
+    return {
+        get: request.bind(null, 'GET', token),
+        post: request.bind(null, 'POST', token),
+        put: request.bind(null, 'PUT', token),
+        patch: request.bind(null, 'Patch', token),
+        delete: request.bind(null, 'DELETE', token),
+    };
+}

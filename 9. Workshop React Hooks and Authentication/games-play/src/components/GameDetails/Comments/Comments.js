@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import * as request from '../../../services/commentServices';
+import { commentFactory } from '../../../services/commentServices';
 import { CommentItem } from "./CommentItem";
+import { useService } from "../../../hooks/useService";
 
 export function Comments({
     gameId,
@@ -8,10 +9,11 @@ export function Comments({
     setComments,
 }) {
 
+    const commentService = useService(commentFactory)
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const res = await request.getCommentsByGameId(gameId);
+                const res = await commentService.getCommentsByGameId(gameId);
                 const data = Object.values(res);
                 setComments(data);
             } catch (error) {

@@ -1,15 +1,26 @@
-import * as request from './request';
+import { requestFactory } from './request';
 
 const baseUrl = 'http://localhost:3030/users/';
 
-export async function login(loginData) {
-    return await request.post(baseUrl + 'login', loginData);
-}
+export function authenticationFactory(token) {
+    
+    const request = requestFactory(token);
+    
+    async function login(loginData) {
+        return await request.post(baseUrl + 'login', loginData);
+    }
+    
+    async function register(regData) {
+        return await request.post(baseUrl + 'register', regData);
+    }
+    
+    async function logout(token) {
+        return await request.get(baseUrl + 'logout');
+    }
 
-export async function register(regData) {
-    return await request.post(baseUrl + 'register', regData);
-}
-
-export async function logout(token) {
-    return await request.get(baseUrl + 'logout');
+    return {
+        login,
+        register,
+        logout,
+    }
 }

@@ -9,30 +9,32 @@ import { Register } from './components/Register/Register';
 import { GameDetails } from './components/GameDetails/GameDetails';
 import { Error404 } from './components/Errors/Errors';
 import { useEffect, useState } from 'react';
-import * as request from './services/gameServices';
+import { gameServiceFactory } from './services/gameServices';
 import { AuthenticationContext } from './contexts/AuthenticationContext';
-import * as authServices from './services/authenticationServices';
+import { authenticationFactory } from './services/authenticationServices';
 import { Logout } from './components/Logout/Logout';
 
 function App() {
   const [games, setGames] = useState([]);
   const navigate = useNavigate();
   const [auth, setAuth] = useState({});
+  const gameService = gameServiceFactory(auth.accessToken);
+  const authService = authenticationFactory(auth.accessToken);
 
   useEffect(() => {
-    request.getAllGames()
+    gameService.getAllGames()
       .then(setGames);
   }, []);
 
   async function onSubmitHandler(game) {
-    const newGame = await request.createGame(game);
+    const newGame = await gameService.createGame(game);
     setGames(state => [...state, newGame]);
     navigate('/catalogue');
   };
 
   async function onLoginSubmit(data) {
     try {
-      const result = await authServices.login(data);
+      const result = await authService.login(data);
       setAuth(result);
       navigate('/catalogue')
     } catch {
@@ -48,7 +50,7 @@ function App() {
     }
 
     try {
-      const result = await authServices.register(regData);
+      const result = await authService.register(regData);
       navigate('/catalogue');
       console.log(result);  // TODO
     } catch {
@@ -57,8 +59,7 @@ function App() {
   }
 
   async function onLogout() {
-    // TODO: authorize request
-    // const result = await authServices.logout();
+    const result = await authService.logout();
     setAuth({});
   };
 

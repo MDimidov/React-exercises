@@ -3,15 +3,16 @@ import * as request from '../../services/gameServices';
 import { useParams } from "react-router-dom";
 import { Comments } from "./Comments/Comments";
 import { AddComment } from "./Comments/AddComment";
+import { useService } from "../../hooks/useService";
 
 export function GameDetails() {
     const [game, setGame] = useState({});
     const { gameId } = useParams();
     const [comments, setComments] = useState([]);
-
+    const gameService = useService(request.gameServiceFactory);
 
     useEffect(() => {
-        request.GetGameById(gameId)
+        gameService.getGameById(gameId)
             .then(res => setGame(res));
     }, [gameId]);
 
@@ -30,7 +31,7 @@ export function GameDetails() {
                 <p className="text">{game?.summary}</p>
 
                 {/* <!-- Bonus ( for Guests and Users ) --> */}
-                <Comments gameId={gameId} comments={comments} setComments={setComments}/>
+                <Comments gameId={gameId} comments={comments} setComments={setComments} />
 
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
                 <div className="buttons">
@@ -41,7 +42,7 @@ export function GameDetails() {
 
             {/* <!-- Bonus --> */}
             {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
-            <AddComment gameId={gameId} comments={comments} setComments={setComments}/>
+            <AddComment gameId={gameId} comments={comments} setComments={setComments} />
 
         </section>
     );
