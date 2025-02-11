@@ -18,6 +18,11 @@ export function gameServiceFactory(token) {
         return result;
     }
 
+    async function editGame(gameId, game) {
+        const result = await request.put(baseUrl + gameId, game);
+        return result;
+    }
+
     async function getGameById(gameId) {
         const result = await request.get(baseUrl + gameId);
         return result;
@@ -26,6 +31,7 @@ export function gameServiceFactory(token) {
     return {
         getAllGames,
         createGame,
+        editGame,
         getGameById,
     };
 }

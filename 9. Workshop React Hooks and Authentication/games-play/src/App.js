@@ -13,6 +13,7 @@ import { gameServiceFactory } from './services/gameServices';
 import { AuthenticationContext } from './contexts/AuthenticationContext';
 import { authenticationFactory } from './services/authenticationServices';
 import { Logout } from './components/Logout/Logout';
+import { EditGame } from './components/GameDetails/EditGame/EditGame';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -31,6 +32,12 @@ function App() {
     setGames(state => [...state, newGame]);
     navigate('/catalogue');
   };
+
+  async function onSubmitEdit(gameId, game) {
+    const editGame = await gameService.editGame(gameId, game);
+    setGames(state => state.map(s => s._id === editGame._id ? editGame : s));
+    navigate(`/catalogue/${gameId}`);
+  }
 
   async function onLoginSubmit(data) {
     try {
@@ -102,8 +109,11 @@ function App() {
               {/* <!-- Catalogue --> */}
               <Route path='/catalogue' element={<Catalogue games={games} />} />
 
+              {/* <!--Details Page--> */}
               <Route path='/catalogue/:gameId' element={<GameDetails games={games} />} />
 
+              {/* <!-- Edit Page ( Only for the creator )--> */}
+              <Route path='/catalogue/:gameId/edit' element={<EditGame onSubmitEdit={onSubmitEdit} />} />
 
               {/* <!-- Errors --> */}
               <Route path='/*' element={<Error404 />} />
@@ -116,33 +126,8 @@ function App() {
 
 
 
-            {/* <!-- Edit Page ( Only for the creator )--> */}
-            {/* <section id="edit-page" className="auth">
-            <form id="edit">
-              <div className="container">
 
-                <h1>Edit Game</h1>
-                <label htmlFor="leg-title">Legendary title:</label>
-                <input type="text" id="title" name="title" defaultValue="" />
 
-                <label htmlFor="category">Category:</label>
-                <input type="text" id="category" name="category" defaultValue="" />
-
-                <label htmlFor="levels">MaxLevel:</label>
-                <input type="number" id="maxLevel" name="maxLevel" min="1" defaultValue="" />
-
-                <label htmlFor="game-img">Image:</label>
-                <input type="text" id="imageUrl" name="imageUrl" defaultValue="" />
-
-                <label htmlFor="summary">Summary:</label>
-                <textarea name="summary" id="summary"></textarea>
-                <input className="btn submit" type="submit" value="Edit Game" />
-
-              </div>
-            </form>
-          </section> */}
-
-            {/* <!--Details Page--> */}
             {/* <GameDetails /> */}
           </main>
 

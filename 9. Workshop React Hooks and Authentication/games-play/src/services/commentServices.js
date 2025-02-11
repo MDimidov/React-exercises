@@ -1,6 +1,6 @@
 import { requestFactory } from './request';
 
-const baseUrl = 'http://localhost:3030/data/games/';
+const baseUrl = 'http://localhost:3030/data/';
 
 export function commentFactory(token) {
 

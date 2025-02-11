@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as request from '../../services/gameServices';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Comments } from "./Comments/Comments";
 import { AddComment } from "./Comments/AddComment";
 import { useService } from "../../hooks/useService";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export function GameDetails() {
+    const { userId } = useContext(AuthenticationContext);
     const [game, setGame] = useState({});
     const { gameId } = useParams();
     const [comments, setComments] = useState([]);
     const gameService = useService(request.gameServiceFactory);
+    const isOwner = userId === game._ownerId;
 
     useEffect(() => {
         gameService.getGameById(gameId)
@@ -22,7 +25,7 @@ export function GameDetails() {
             <div className="info-section">
 
                 <div className="game-header">
-                    <img className="game-img" src={game?.imageUrl} />
+                    <img className="game-img" src={game?.imageUrl} alt={game?.title} />
                     <h1>{game?.title}</h1>
                     <span className="levels">MaxLevel: {game?.maxLevel}</span>
                     <p className="type">{game?.category}</p>
@@ -34,10 +37,15 @@ export function GameDetails() {
                 <Comments gameId={gameId} comments={comments} setComments={setComments} />
 
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
-                <div className="buttons">
-                    <a href="#" className="button">Edit</a>
-                    <a href="#" className="button">Delete</a>
-                </div>
+
+                {console.log('user: ' + userId)}
+                {console.log('owner: ' + game._ownerId)}
+                {isOwner && (
+                    <div className="buttons">
+                        <Link to={`/catalogue/` + game._id + `/edit`} game={game} className="button">Edit</Link>
+                        <button className="button">Delete</button>
+                    </div>
+                )}
             </div>
 
             {/* <!-- Bonus --> */}

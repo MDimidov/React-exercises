@@ -14,9 +14,13 @@ export function useForms(initialValues, onSubmitHandler) {
         onSubmitHandler(formValues);
     }
 
+    function changeValues(newValues) {
+        setFormValues(newValues);
+    }
     return {
         formValues,
         onChangeHandler,
         onSubmit,
+        changeValues,
     }
 }
