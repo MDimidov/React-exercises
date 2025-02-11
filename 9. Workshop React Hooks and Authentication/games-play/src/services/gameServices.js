@@ -28,10 +28,16 @@ export function gameServiceFactory(token) {
         return result;
     }
 
+    async function deleteGame(gameId) {
+        const result = await request.delete(baseUrl + gameId);
+        return result;
+    }
+
     return {
         getAllGames,
         createGame,
         editGame,
         getGameById,
+        deleteGame,
     };
 }

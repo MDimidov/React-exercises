@@ -7,7 +7,7 @@ import { useService } from "../../hooks/useService";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export function GameDetails() {
-    const { userId } = useContext(AuthenticationContext);
+    const { userId, onDeleteGame } = useContext(AuthenticationContext);
     const [game, setGame] = useState({});
     const { gameId } = useParams();
     const [comments, setComments] = useState([]);
@@ -40,7 +40,7 @@ export function GameDetails() {
                 {isOwner && (
                     <div className="buttons">
                         <Link to={`/catalogue/` + game._id + `/edit`} game={game} className="button">Edit</Link>
-                        <button className="button">Delete</button>
+                        <button onClick={() => onDeleteGame(gameId)} className="button">Delete</button>
                     </div>
                 )}
             </div>

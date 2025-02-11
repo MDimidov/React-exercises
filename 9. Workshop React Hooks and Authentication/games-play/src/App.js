@@ -39,6 +39,12 @@ function App() {
     navigate(`/catalogue/${gameId}`);
   }
 
+  async function onDeleteGame(gameId) {
+    await gameService.deleteGame(gameId);
+    setGames(state => state.filter(s => s._id !== gameId));
+
+    navigate(`/catalogue/`);
+  }
   async function onLoginSubmit(data) {
     try {
       const result = await authService.login(data);
@@ -74,6 +80,7 @@ function App() {
     onLoginSubmit,
     onLogout,
     onRegisterSubmit,
+    onDeleteGame,
     userId: auth._id,
     token: auth.accessToken,
     userEmail: auth.email,
