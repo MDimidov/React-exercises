@@ -37,9 +37,6 @@ export function GameDetails() {
                 <Comments gameId={gameId} comments={comments} setComments={setComments} />
 
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
-
-                {console.log('user: ' + userId)}
-                {console.log('owner: ' + game._ownerId)}
                 {isOwner && (
                     <div className="buttons">
                         <Link to={`/catalogue/` + game._id + `/edit`} game={game} className="button">Edit</Link>

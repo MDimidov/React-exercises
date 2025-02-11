@@ -15,9 +15,10 @@ export function Comments({
             try {
                 const res = await commentService.getCommentsByGameId(gameId);
                 const data = Object.values(res);
+                console.log(res);
                 setComments(data);
             } catch (error) {
-                console.error("Failed to fetch comments:", error);
+                console.error("Failed to fetch comments: ", error);
             }
         };
 

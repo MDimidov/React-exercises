@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { commentFactory } from '../../../services/commentServices';
+import { useService } from "../../../hooks/useService";
 
 export function AddComment({
     gameId,
     comments,
     setComments
 }) {
+    const commentService = useService(commentFactory);
     const [formValues, setFormValues] = useState({
         author: '',
         comment: '',
+        gameId,
     });
 
     function onChange(e) {
@@ -16,7 +19,7 @@ export function AddComment({
     }
 
     async function createComment() {
-        const result = await commentFactory.createComment(gameId, formValues);
+        const result = await commentService.createComment(formValues);
         return result;
     }
 
