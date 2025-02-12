@@ -1,26 +1,26 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
-import { Catalogue } from './components/Catalogue/Catalogue';
-import { CreateGame } from './components/CreateGame/CreateGame';
+
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { AuthenticationProvider } from './contexts/AuthenticationContext';
+import { gameServiceFactory } from './services/gameServices';
+
 import { Header } from './components/Header/Header';
 import { Home } from './components/Home/Home';
+import { Catalogue } from './components/Catalogue/Catalogue';
+import { CreateGame } from './components/CreateGame/CreateGame';
+import { GameDetails } from './components/GameDetails/GameDetails';
+import { EditGame } from './components/GameDetails/EditGame/EditGame';
 import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
-import { GameDetails } from './components/GameDetails/GameDetails';
-import { Error404 } from './components/Errors/Errors';
-import { useEffect, useState } from 'react';
-import { gameServiceFactory } from './services/gameServices';
-import { AuthenticationContext } from './contexts/AuthenticationContext';
-import { authenticationFactory } from './services/authenticationServices';
 import { Logout } from './components/Logout/Logout';
-import { EditGame } from './components/GameDetails/EditGame/EditGame';
+import { Error404 } from './components/Errors/Errors';
 
 function App() {
   const [games, setGames] = useState([]);
   const navigate = useNavigate();
-  const [auth, setAuth] = useState({});
-  const gameService = gameServiceFactory(auth.accessToken);
-  const authService = authenticationFactory(auth.accessToken);
+  const gameService = gameServiceFactory(); //auth.accessToken
 
   useEffect(() => {
     gameService.getAllGames()
@@ -45,46 +45,13 @@ function App() {
 
     navigate(`/catalogue/`);
   }
-  async function onLoginSubmit(data) {
-    try {
-      const result = await authService.login(data);
-      setAuth(result);
-      navigate('/catalogue')
-    } catch {
-      console.log('Your email or password is wrong!');
-    }
-  }
 
-  async function onRegisterSubmit(data) {
-    const { confirmPassword, ...regData } = data
-
-    if (confirmPassword !== regData.password) {
-      return;
-    }
-
-    try {
-      const result = await authService.register(regData);
-      navigate('/catalogue');
-      console.log(result);  // TODO
-    } catch {
-      console.log('Sth Wrong');
-    }
-  }
-
-  async function onLogout() {
-    const result = await authService.logout();
-    setAuth({});
-  };
 
   const context = {
-    onLoginSubmit,
-    onLogout,
-    onRegisterSubmit,
     onDeleteGame,
-    userId: auth._id,
-    token: auth.accessToken,
-    userEmail: auth.email,
-    isAuthenticated: !!auth.accessToken
+    // userId: auth._id,
+    // token: auth.accessToken,
+    // userEmail: auth.email,
   }
 
   return (
@@ -92,7 +59,7 @@ function App() {
       <h1>Games play</h1>
 
       <div id="box">
-        <AuthenticationContext.Provider value={context}>
+        <AuthenticationProvider value={context}>
 
           <Header />
 
@@ -116,7 +83,7 @@ function App() {
               {/* <!-- Catalogue --> */}
               <Route path='/catalogue' element={<Catalogue games={games} />} />
 
-              {/* <!--Details Page--> */}
+              {/* <GameDetails /> */}
               <Route path='/catalogue/:gameId' element={<GameDetails games={games} />} />
 
               {/* <!-- Edit Page ( Only for the creator )--> */}
@@ -125,20 +92,9 @@ function App() {
               {/* <!-- Errors --> */}
               <Route path='/*' element={<Error404 />} />
             </Routes>
-
-
-
-
-
-
-
-
-
-
-            {/* <GameDetails /> */}
           </main>
 
-        </AuthenticationContext.Provider>
+        </AuthenticationProvider>
 
       </div>
     </div>

@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { useForms } from "../../hooks/useForms";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { Link } from "react-router-dom";
 
 export function Login() {
@@ -10,7 +9,7 @@ export function Login() {
     Password: 'password',
   }
 
-  const { onLoginSubmit } = useContext(AuthenticationContext);
+  const { onLoginSubmit } = useAuthenticationContext;
   const { formValues, onChangeHandler, onSubmit } = useForms({ [formKeys.Email]: '', [formKeys.Password]: '' }, onLoginSubmit);
 
 
