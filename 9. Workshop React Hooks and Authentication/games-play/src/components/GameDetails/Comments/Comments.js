@@ -8,7 +8,7 @@ export function Comments({
     comments,
     setComments,
 }) {
-
+    
     const commentService = useService(commentFactory)
     useEffect(() => {
         const fetchComments = async () => {

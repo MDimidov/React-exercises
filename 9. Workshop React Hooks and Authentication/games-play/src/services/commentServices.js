@@ -7,7 +7,8 @@ export function commentFactory(token) {
     const request = requestFactory(token);
 
     async function getCommentsByGameId(gameId) {
-        const result = await request.get(`${baseUrl}?where=gameId%3D%22${gameId}%22`);
+        const req = encodeURIComponent(`gameId="${gameId}"`);
+        const result = await request.get(`${baseUrl}?where=${req}`);
 
         return result;
     }
