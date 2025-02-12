@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { commentFactory } from '../../../services/commentServices';
 import { useService } from "../../../hooks/useService";
+import { useForms } from "../../../hooks/useForms";
 
 export function AddComment({
     gameId,
@@ -8,15 +8,12 @@ export function AddComment({
     setComments
 }) {
     const commentService = useService(commentFactory);
-    const [formValues, setFormValues] = useState({
+
+    const {formValues, onChangeHandler, onSubmit} = useForms({
         author: '',
         comment: '',
         gameId,
-    });
-
-    function onChange(e) {
-        setFormValues(state => ({ ...state, [e.target.name]: e.target.value }));
-    }
+    }, onSubmitComment);
 
     async function createComment() {
         const result = await commentService.createComment(formValues);
@@ -24,16 +21,15 @@ export function AddComment({
     }
 
     async function onSubmitComment(e) {
-        e.preventDefault();
         const newComment = await createComment();
         setComments(state => ([...state, newComment]));
     }
     return (
         <article className="create-comment">
             <label>Add new comment:</label>
-            <form className="form" onSubmit={onSubmitComment}>
-                <input name="author" placeholder="Author" value={formValues.author} onChange={onChange} />
-                <textarea name="comment" placeholder="Comment......" value={formValues.comment} onChange={onChange}></textarea>
+            <form className="form" onSubmit={onSubmit}>
+                <input name="author" placeholder="Author" value={formValues.author} onChange={onChangeHandler} />
+                <textarea name="comment" placeholder="Comment......" value={formValues.comment} onChange={onChangeHandler}></textarea>
                 <input className="btn submit" type="submit" value="Add Comment" />
             </form>
         </article>
