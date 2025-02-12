@@ -11,9 +11,9 @@ export function useForms(initialValues, onSubmitHandler) {
     function onSubmit(e) {
         e.preventDefault();
 
-        setFormValues(initialValues);
-
         onSubmitHandler(formValues);
+        
+        setFormValues(initialValues);
     }
 
     function changeValues(newValues) {
