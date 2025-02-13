@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navigation } from "./components/Navigation";
 import { Component } from "react";
 import { TodoContext } from "./contexts/TodoContext";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 class App extends Component {
   constructor(props) {
@@ -39,11 +40,16 @@ class App extends Component {
 
   render() {
     return (
-      <TodoContext.Provider value={{tasks: this.state.tasks, name: this.state.name}}>
-        <Navigation />
-        <p>{this.state.name}</p>
-        <ListElement tasks={this.state.tasks} onTodoClick={this.onTodoClick.bind(this)} onDeleteTask={this.onDeleteTask.bind(this)} />
-      </TodoContext.Provider>
+      <ErrorBoundary>
+        <TodoContext.Provider value={{ tasks: this.state.tasks, name: this.state.name }}>
+          <Navigation />
+          <p>{this.state.name}</p>
+          <ListElement
+            tasks={this.state.tasks}
+            onTodoClick={this.onTodoClick.bind(this)}
+            onDeleteTask={this.onDeleteTask.bind(this)} />
+        </TodoContext.Provider>
+      </ErrorBoundary>
     );
   }
 }

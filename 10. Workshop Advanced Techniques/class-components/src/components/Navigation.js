@@ -4,6 +4,8 @@ import { TodoContext } from "../contexts/TodoContext";
 
 export class Navigation extends Component {
     render() {
+        throw new Error("New error - test");
+        
         return (
             <TodoContext.Consumer>
                 {({ name }) =>
