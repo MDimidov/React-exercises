@@ -1,7 +1,7 @@
 export function CommentItem({ author, comment }) {
     return (
         <li className="comment">
-            <p>{author}: {comment}.</p>
+            <p>{author.email}: {comment}.</p>
         </li>
     );
 }
