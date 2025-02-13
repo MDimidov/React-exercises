@@ -1,15 +1,19 @@
 import { Component } from "react";
 import ListGroup from 'react-bootstrap/ListGroup';
+import { ListItem } from "./ListItem";
 
 export default class ListElement extends Component {
+
+
     render() {
         return (
             <ListGroup>
-                <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-                <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-                <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                {this.props.tasks.map(t =>
+                    <ListItem
+                        key={t.id} {...t}
+                        onTodoClick={this.props.onTodoClick}
+                        onDeleteTask={this.props.onDeleteTask}
+                    />)}
             </ListGroup>
         );
     }
