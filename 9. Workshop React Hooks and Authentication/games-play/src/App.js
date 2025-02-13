@@ -67,7 +67,7 @@ function App() {
           <main id="main-content">
             <Routes>
               {/* <!--Home Page--> */}
-              <Route path='/' element={<Home />} />
+              <Route path='/' element={<Home games={games.sort(g => g._createdOn)} />} />
 
               {/* <!-- Login Page ( Only for Guest users ) --> */}
               <Route path='/login' element={<Login />} />
