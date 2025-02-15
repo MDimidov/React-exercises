@@ -16,6 +16,7 @@ import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
 import { Logout } from './components/Logout/Logout';
 import { Error404 } from './components/Errors/Errors';
+import { RouteGuard } from './components/common/RouteGuard';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -78,7 +79,12 @@ function App() {
               <Route path='/register' element={<Register />} />
 
               {/* <!-- Create Page ( Only for logged-in users ) --> */}
-              <Route path='/create-game' element={<CreateGame onSubmitHandler={onSubmitHandler} />} />
+              <Route path='/create-game' element={
+                <RouteGuard>
+
+                  <CreateGame onSubmitHandler={onSubmitHandler} />
+                </RouteGuard>
+              } />
 
               {/* <!-- Catalogue --> */}
               <Route path='/catalogue' element={<Catalogue games={games} />} />
