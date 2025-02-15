@@ -29,10 +29,15 @@ export function GameProvider({ children }) {
     }
 
     async function onDeleteGame(gameId) {
-        await gameService.deleteGame(gameId);
-        setGames(state => state.filter(s => s._id !== gameId));
 
-        navigate(`/catalogue/`);
+        const isDeleteConfirm = window.confirm('Are you sure you want to delete this game');
+        if (isDeleteConfirm) {
+
+            await gameService.deleteGame(gameId);
+            setGames(state => state.filter(s => s._id !== gameId));
+            
+            navigate(`/catalogue/`);
+        }
     }
 
     function getGame(gameId) {

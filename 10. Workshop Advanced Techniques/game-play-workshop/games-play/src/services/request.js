@@ -9,6 +9,15 @@ async function request(method, token, url, data) {
         options.body = JSON.stringify(data);
     }
 
+
+    // Not good practice to deserialize token every time
+    const serializedAuth = localStorage.getItem('auth');
+
+    if (serializedAuth) {
+        const auth = JSON.parse(serializedAuth);
+        token = auth.accessToken;
+    }
+
     if (token) {
         options.headers = {
             ...options.headers,

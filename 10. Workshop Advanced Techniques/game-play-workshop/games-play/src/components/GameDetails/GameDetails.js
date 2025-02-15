@@ -1,13 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as request from '../../services/gameServices';
 import { Link, useParams } from "react-router-dom";
 import { Comments } from "./Comments/Comments";
 import { AddComment } from "./Comments/AddComment";
 import { useService } from "../../hooks/useService";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { useGameContext } from "../../contexts/GameContext";
 
 export function GameDetails() {
-    const { userId, onDeleteGame } = useContext(AuthenticationContext);
+    const { userId } = useAuthenticationContext();
+    const { onDeleteGame } = useGameContext();
     const [game, setGame] = useState({});
     const { gameId } = useParams();
     const [comments, setComments] = useState([]);
