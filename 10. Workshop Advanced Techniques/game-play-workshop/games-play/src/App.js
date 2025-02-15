@@ -1,10 +1,8 @@
 import './App.css';
 
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import { AuthenticationProvider } from './contexts/AuthenticationContext';
-import { gameServiceFactory } from './services/gameServices';
 
 import { Header } from './components/Header/Header';
 import { Home } from './components/Home/Home';
@@ -17,91 +15,80 @@ import { Register } from './components/Register/Register';
 import { Logout } from './components/Logout/Logout';
 import { Error404 } from './components/Errors/Errors';
 import { RouteGuard } from './components/common/RouteGuard';
+import { GameContext, GameProvider } from './contexts/GameContext';
+import { GameOwner } from './components/common/GameOwner';
 
 function App() {
-  const [games, setGames] = useState([]);
-  const navigate = useNavigate();
-  const gameService = gameServiceFactory(); //auth.accessToken
-
-  useEffect(() => {
-    gameService.getAllGames()
-      .then(setGames);
-  }, []);
-
-  async function onSubmitHandler(game) {
-    const newGame = await gameService.createGame(game);
-    setGames(state => [...state, newGame]);
-    navigate('/catalogue');
-  };
-
-  async function onSubmitEdit(gameId, game) {
-    const editGame = await gameService.editGame(gameId, game);
-    setGames(state => state.map(s => s._id === editGame._id ? editGame : s));
-    navigate(`/catalogue/${gameId}`);
-  }
-
-  async function onDeleteGame(gameId) {
-    await gameService.deleteGame(gameId);
-    setGames(state => state.filter(s => s._id !== gameId));
-
-    navigate(`/catalogue/`);
-  }
 
 
-  const context = {
-    onDeleteGame,
-    // userId: auth._id,
-    // token: auth.accessToken,
-    // userEmail: auth.email,
-  }
+
+  // const context = {
+  //   onDeleteGame,
+  //   // userId: auth._id,
+  //   // token: auth.accessToken,
+  //   // userEmail: auth.email,
+  // }
 
   return (
     <div className="App">
       <h1>Games play</h1>
 
       <div id="box">
-        <AuthenticationProvider value={context}>
+        <AuthenticationProvider /* value={context}*/ >
+          <GameProvider>
 
-          <Header />
 
-          {/* <!-- Main Content --> */}
-          <main id="main-content">
-            <Routes>
-              {/* <!--Home Page--> */}
-              <Route path='/' element={<Home games={games.sort(g => g._createdOn)} />} />
+            <Header />
 
-              {/* <!-- Login Page ( Only for Guest users ) --> */}
-              <Route path='/login' element={<Login />} />
+            {/* <!-- Main Content --> */}
+            <main id="main-content">
+              <Routes>
+                {/* <!--Home Page--> */}
+                <Route path='/' element={<Home /* games={games.sort(g => g._createdOn)}*/ />} />
 
-              <Route path='/logout' element={<Logout />} />
+                {/* <!-- Login Page ( Only for Guest users ) --> */}
+                <Route path='/login' element={<Login />} />
 
-              {/* <!-- Register Page ( Only for Guest users ) --> */}
-              <Route path='/register' element={<Register />} />
+                {/* <!-- Register Page ( Only for Guest users ) --> */}
+                <Route path='/register' element={<Register />} />
 
-              {/* <!-- Create Page ( Only for logged-in users ) --> */}
-              <Route path='/create-game' element={
+
+
+                {/* <!-- Catalogue --> */}
+                <Route path='/catalogue' element={<Catalogue /* games={games} */ />} />
+
+                {/* <GameDetails /> */}
+                <Route path='/catalogue/:gameId' element={<GameDetails />} />
+
+
+                <Route element={<RouteGuard />} >
+                  {/* <!-- Edit Page ( Only for the creator )--> */}
+                  <Route path='/catalogue/:gameId/edit' element={
+                    <GameOwner>
+                      <EditGame /* onSubmitEdit={onSubmitEdit} */ />
+                    </GameOwner>
+                  } />
+
+                  {/* <!-- Create Page ( Only for logged-in users ) --> */}
+                  <Route path='/create-game' element={<CreateGame /* onSubmitHandler={onSubmitHandler} */ />} />
+
+                  <Route path='/logout' element={<Logout />} />
+                </Route>
+
+                {/* <!-- Errors --> */}
+                <Route path='/*' element={<Error404 />} />
+
+                {/* <!-- Create Page ( Only for logged-in users ) --> */}
+                {/* <Route path='/create-game' element={
                 <RouteGuard>
-
-                  <CreateGame onSubmitHandler={onSubmitHandler} />
+                
+                <CreateGame onSubmitHandler={onSubmitHandler} />
                 </RouteGuard>
-              } />
+                } /> */}
+              </Routes>
+            </main>
 
-              {/* <!-- Catalogue --> */}
-              <Route path='/catalogue' element={<Catalogue games={games} />} />
-
-              {/* <GameDetails /> */}
-              <Route path='/catalogue/:gameId' element={<GameDetails games={games} />} />
-
-              <Route element={<RouteGuard />} >
-                {/* <!-- Edit Page ( Only for the creator )--> */}
-                <Route path='/catalogue/:gameId/edit' element={<EditGame onSubmitEdit={onSubmitEdit} />} />
-              </Route>
-
-              {/* <!-- Errors --> */}
-              <Route path='/*' element={<Error404 />} />
-            </Routes>
-          </main>
-
+          </GameProvider>
         </AuthenticationProvider>
 
       </div>
