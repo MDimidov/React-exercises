@@ -92,8 +92,10 @@ function App() {
               {/* <GameDetails /> */}
               <Route path='/catalogue/:gameId' element={<GameDetails games={games} />} />
 
-              {/* <!-- Edit Page ( Only for the creator )--> */}
-              <Route path='/catalogue/:gameId/edit' element={<EditGame onSubmitEdit={onSubmitEdit} />} />
+              <Route element={<RouteGuard />} >
+                {/* <!-- Edit Page ( Only for the creator )--> */}
+                <Route path='/catalogue/:gameId/edit' element={<EditGame onSubmitEdit={onSubmitEdit} />} />
+              </Route>
 
               {/* <!-- Errors --> */}
               <Route path='/*' element={<Error404 />} />

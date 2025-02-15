@@ -1,5 +1,6 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+
 
 export function RouteGuard({ children }) {
     const { isAuthenticated } = useAuthenticationContext();
@@ -7,10 +8,23 @@ export function RouteGuard({ children }) {
     if (!isAuthenticated) {
         return <Navigate to='/login' />
     }
-
     return (
-        <>
-            {children}
-        </>
+        children ? children : <Outlet />
     )
 }
+
+
+//Method 2
+// export function RouteGuard({ children }) {
+//     const { isAuthenticated } = useAuthenticationContext();
+
+//     if (!isAuthenticated) {
+//         return <Navigate to='/login' />
+//     }
+
+//     return (
+//         <>
+//             {children}
+//         </>
+//     )
+// }
