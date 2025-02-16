@@ -3,7 +3,10 @@ import LatestGames from "./LatestGames";
 
 export function Home() {
 
-    const { games } = useGameContext()
+    const { games } = useGameContext();
+
+    let latestGames = [...games];
+    latestGames = latestGames.sort((a, b) => (b._createdOn - a._createdOn)).splice(0, 3);
 
     return (
         <section id="welcome-world">
@@ -18,12 +21,12 @@ export function Home() {
                 <h1>Latest Games</h1>
 
                 {/* <!-- Display div: with information about every game (if any) --> */}
-                {games.map(g =>
+                {latestGames.map(g =>
                     <LatestGames key={g._id} {...g} />
                 )}
 
                 {/* <!-- Display paragraph: If there is no games  --> */}
-                {games.Length && <p className="no-articles">No games yet</p>}
+                {latestGames.length === 0 && <p className="no-articles">No games yet</p>}
             </div>
         </section>
     );
